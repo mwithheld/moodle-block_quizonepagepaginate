@@ -1,7 +1,10 @@
 /* This file is automatically included by Moodle */
 
+
+/* This rule is only used to detect if this css is present */
+
 .block_quizonepagepaginate_customcss {
-    display: block;
+    -block_quizonepagepaginate-cssispresent: 1;
 }
 
 
@@ -9,6 +12,6 @@
 By default hide all quiz questions. Use JS to unhide them as needed.
 */
 
-#page-mod-quiz-attempt #responseform .que {
+#page-mod-quiz-attempt.block_quizonepagepaginate #responseform .que {
     display: none;
 }

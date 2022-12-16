@@ -115,6 +115,16 @@ class block_quizonepagepaginate extends block_base {
 
         return true;
     }
+     
+    /**
+     * This function is called on your subclass right after an instance is loaded
+     * Use this function to act on instance data just after it's loaded and before anything else is done
+     * For instance: if your block will have different title's depending on location (site, course, blog, etc)
+     */
+    function specialization() {
+        // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
+        $this->page->add_body_class('block_quizonepagepaginate');
+    }
     
     /**
      * Creates the block's main content
