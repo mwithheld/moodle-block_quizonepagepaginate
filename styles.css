@@ -3,3 +3,12 @@
 .block_quizonepagepaginate_customcss {
     display: block;
 }
+
+
+/* 
+By default hide all quiz questions. Use JS to unhide them as needed.
+*/
+
+#page-mod-quiz-attempt #responseform .que {
+    display: none;
+}

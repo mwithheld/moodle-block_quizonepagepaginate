@@ -28,10 +28,13 @@
 
 class block_quizonepagepaginate {
     constructor() {
-        let debug = true;
+        let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.constructor';
         if (debug) { window.console.log(FXN + '::Started'); }
+
+        self.eltQuestionsSelector = '#page-mod-quiz-attempt #responseform .que';
+        self.arrQuestions = [];
     }
 
     run() {
@@ -39,6 +42,19 @@ class block_quizonepagepaginate {
         let self = this;
         const FXN = self.constructor.name + '.run';
         if (debug) { window.console.log(FXN + '::Started'); }
+
+        self.showQuestions();
+    }
+
+    showQuestions() {
+        let debug = true;
+        let self = this;
+        const FXN = self.constructor.name + '.showQuestions';
+        if (debug) { window.console.log(FXN + '::Started'); }
+
+        self.arrQuestions = document.querySelectorAll(self.eltQuestionsSelector);
+        if (debug) { window.console.log(FXN + '::Found ' + self.arrQuestions.length + ' questions'); }
+        Array.from(self.arrQuestions).slice(0, 2).forEach(elt => (elt.style.display = 'block'));
     }
 
 }
