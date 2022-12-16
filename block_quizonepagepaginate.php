@@ -122,11 +122,11 @@ class block_quizonepagepaginate extends block_base {
      * @return string|stdClass
      */
     public function get_content() {
-        global $COURSE, $OUTPUT;
-
         if (isset($this->content)) {
             return $this->content;
         }
+        
+        $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init');
 
         $this->content = new stdClass;
         $this->content->text = __FUNCTION__.'::Some block content here';
