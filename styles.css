@@ -19,13 +19,6 @@ body.editing .block-region .block_quizonepagepaginate {
 }
 
 
-/* By default hide all quiz questions. Use JS to unhide them as needed. */
-
-#page-mod-quiz-attempt.block_quizonepagepaginate #responseform .que {
-    display: none;
-}
-
-
 /*
 Hide the quiz config for Layout>New Page:# questions per page, since we are forcing it to all.
  */
