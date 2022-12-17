@@ -85,43 +85,69 @@ class block_quizonepagepaginate {
         Array.from(self.arrQuestions).slice(0, self.questionsperpage).forEach(elt => (elt.style.display = 'block'));
     }
 
+    getStrings() {
+
+    }
+
     addNextPrevButtons() {
         let debug = true;
         let self = this;
-        const FXN = self.constructor.name + '.showQuestions';
+        const FXN = self.constructor.name + '.addNextPrevButtons';
         if (debug) {
             window.console.log(FXN + '::Started with self.eltQuizFinishAttemptButtonSelector=',
                 self.eltQuizFinishAttemptButtonSelector);
         }
 
         var elt = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
+
+        // String are returned in a plain array in the same order specified here.
+        // E.g. [0 => "Previous", 1 => "Next"].
+        var stringsToRetrieve = [{
+                key: 'previous',
+                component: 'core'
+            },
+            {
+                key: 'next',
+                component: 'core',
+            }
+        ];
+
         // We need core/str bc we get column names via ajax get_string later.
         require(['core/str'], function(str) {
-            var eltPrev = elt.cloneNode();
-            var prevval = self.constructor.name + '-prev';
-            var stringispresent_prevdisplay = str.get_string('previous', 'core');
-            eltPrev.setAttribute('id', prevval);
-            eltPrev.setAttribute('class', eltPrev.getAttribute('class').replace('btn-primary', 'btn-secondary'));
-            eltPrev.setAttribute('name', prevval);
-            eltPrev.setAttribute('type', prevval);
-            $.when(stringispresent_prevdisplay).done(function(prevdisplay) {
-                eltPrev.setAttribute('value', prevdisplay);
-                eltPrev.setAttribute('data-initial-value', prevdisplay);
-            });
-            elt.parentNode.insertBefore(eltPrev, elt);
+            if (debug) { window.console.log(FXN + '.require::Started with stringsToRetrieve=', stringsToRetrieve); }
 
-            var eltNext = elt.cloneNode();
-            var nextval = self.constructor.name + '-next';
-            var stringispresent_nextdisplay = str.get_string('next', 'core');
-            eltNext.setAttribute('id', nextval);
-            eltNext.setAttribute('class', eltNext.getAttribute('class').replace('btn-primary', 'btn-secondary'));
-            eltNext.setAttribute('name', nextval);
-            eltNext.setAttribute('type', nextval);
-            $.when(stringispresent_nextdisplay).done(function(nextdisplay) {
-                eltNext.setAttribute('value', nextdisplay);
-                eltNext.setAttribute('data-initial-value', nextdisplay);
-            });
-            elt.parentNode.insertBefore(eltNext, elt);
+            str.get_strings(stringsToRetrieve).then(
+                function(stringsRetrieved) {
+                    if (debug) {
+                        window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved);
+                    }
+
+                    var eltPrev = elt.cloneNode();
+                    var prevval = self.constructor.name + '-prev';
+                    var stringispresent_prevdisplay = stringsRetrieved[0];
+                    eltPrev.setAttribute('id', prevval);
+                    eltPrev.setAttribute('class', eltPrev.getAttribute('class').replace('btn-primary', 'btn-secondary'));
+                    eltPrev.setAttribute('name', prevval);
+                    eltPrev.setAttribute('type', prevval);
+                    $.when(stringispresent_prevdisplay).done(function(prevdisplay) {
+                        eltPrev.setAttribute('value', prevdisplay);
+                        eltPrev.setAttribute('data-initial-value', prevdisplay);
+                    });
+                    elt.parentNode.insertBefore(eltPrev, elt);
+
+                    var eltNext = elt.cloneNode();
+                    var nextval = self.constructor.name + '-next';
+                    var stringispresent_nextdisplay = stringsRetrieved[1];
+                    eltNext.setAttribute('id', nextval);
+                    eltNext.setAttribute('class', eltNext.getAttribute('class').replace('btn-primary', 'btn-secondary'));
+                    eltNext.setAttribute('name', nextval);
+                    eltNext.setAttribute('type', nextval);
+                    $.when(stringispresent_nextdisplay).done(function(nextdisplay) {
+                        eltNext.setAttribute('value', nextdisplay);
+                        eltNext.setAttribute('data-initial-value', nextdisplay);
+                    });
+                    elt.parentNode.insertBefore(eltNext, elt);
+                });
         });
     }
 
