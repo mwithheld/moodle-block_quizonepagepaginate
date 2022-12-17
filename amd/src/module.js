@@ -19,7 +19,7 @@
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/* global window, M, $ */
+/* global window, M */
 /* eslint-env es6, node */
 /* eslint-disable no-control-regex, no-alert */
 
@@ -124,28 +124,24 @@ class block_quizonepagepaginate {
 
                     var eltPrev = elt.cloneNode();
                     var prevval = self.constructor.name + '-prev';
-                    var stringispresent_prevdisplay = stringsRetrieved[0];
+                    var prevdisplay = stringsRetrieved[0];
                     eltPrev.setAttribute('id', prevval);
                     eltPrev.setAttribute('class', eltPrev.getAttribute('class').replace('btn-primary', 'btn-secondary'));
                     eltPrev.setAttribute('name', prevval);
                     eltPrev.setAttribute('type', prevval);
-                    $.when(stringispresent_prevdisplay).done(function(prevdisplay) {
-                        eltPrev.setAttribute('value', prevdisplay);
-                        eltPrev.setAttribute('data-initial-value', prevdisplay);
-                    });
+                    eltPrev.setAttribute('value', prevdisplay);
+                    eltPrev.setAttribute('data-initial-value', prevdisplay);
                     elt.parentNode.insertBefore(eltPrev, elt);
 
                     var eltNext = elt.cloneNode();
                     var nextval = self.constructor.name + '-next';
-                    var stringispresent_nextdisplay = stringsRetrieved[1];
+                    var nextdisplay = stringsRetrieved[1];
                     eltNext.setAttribute('id', nextval);
                     eltNext.setAttribute('class', eltNext.getAttribute('class').replace('btn-primary', 'btn-secondary'));
                     eltNext.setAttribute('name', nextval);
                     eltNext.setAttribute('type', nextval);
-                    $.when(stringispresent_nextdisplay).done(function(nextdisplay) {
-                        eltNext.setAttribute('value', nextdisplay);
-                        eltNext.setAttribute('data-initial-value', nextdisplay);
-                    });
+                    eltNext.setAttribute('value', nextdisplay);
+                    eltNext.setAttribute('data-initial-value', nextdisplay);
                     elt.parentNode.insertBefore(eltNext, elt);
                 });
         });
