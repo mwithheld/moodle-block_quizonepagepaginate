@@ -8,10 +8,28 @@
 }
 
 
-/* 
-By default hide all quiz questions. Use JS to unhide them as needed.
-*/
+/* Always hide this block if not in editing mode */
+
+.block-region .block_quizonepagepaginate {
+    display: none;
+}
+
+body.editing .block-region .block_quizonepagepaginate {
+    display: block;
+}
+
+
+/* By default hide all quiz questions. Use JS to unhide them as needed. */
 
 #page-mod-quiz-attempt.block_quizonepagepaginate #responseform .que {
+    display: none;
+}
+
+
+/* 
+Hide the quiz config for Layout>New Page:# questions per page, since we are forcing it to all.
+ */
+
+#page-mod-quiz-mod.block_quizonepagepaginate #fgroup_id_questionsperpagegrp {
     display: none;
 }

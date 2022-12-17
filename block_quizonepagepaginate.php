@@ -18,7 +18,8 @@
 
 require_once(__DIR__ . '/lib.php');
 
-use block_quizonepagepaginate\Utility as qopp_u;
+use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
+use block_quizonepagepaginate\Utility as bqopp_u;
  
 /**
  * Definition of the accessreview block.
@@ -87,30 +88,73 @@ class block_quizonepagepaginate extends block_base {
     {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = true;
-        $debug && error_log($fxn . '::Started with configdata=' . qopp_u::var_dump($this->config, true));
+        $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
-        global $COURSE;
-
-        // If this is a quiz, auto-configure the quiz to...
+        // If this is a quiz, auto-configure the quiz and this block.
         $debug && error_log($fxn . "::Looking at pagetype={$this->page->pagetype}");
         if (str_starts_with($this->page->pagetype, 'mod-quiz-')) {
-            // A. Show blocks during quiz attempt; and...
-            $modulecontext = $this->context->get_parent_context();
-            $debug && error_log($fxn . '::Got $modulecontext=' . qopp_u::var_dump($modulecontext, true));
-            $modinfo = \get_fast_modinfo($COURSE, -1);
-            $cm = $modinfo->get_cm($modulecontext->instanceid);
-            $debug && error_log($fxn . '::Got $cm->instance=' . qopp_u::var_dump($cm->instance, true));
-            global $DB;
-            $record = $DB->get_record('quiz', ['id' => (int) ($cm->instance)], '*', \MUST_EXIST);
-            $debug && error_log($fxn . '::Got record=' . qopp_u::var_dump($record, true));
-            if ($record->showblocks < 1) {
-                $record->showblocks = 1;
-                $DB->update_record('quiz', $record);
-            }
+            $this->autoupdate_quiz_config();
+            $this->autoupdate_block_config();
+        }
 
-            // B. By default show the block on all quiz pages.
-            $DB->set_field('block_instances', 'pagetypepattern', 'mod-quiz-*', ['id' => $this->instance->id]);
-            $debug && error_log($fxn . '::Set DB [pagetypepattern] = mod-quiz-*');
+        return true;
+    }
+
+    /**
+     * Change block config to show this block on all quiz pages.
+     * 
+     * @return bool True if completes.
+     */
+    private function autoupdate_block_config():bool {
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug = true;
+        $debug && error_log($fxn . '::Started');
+
+        // Show the block on all quiz pages.
+        global $DB;
+        $DB->set_field('block_instances', 'pagetypepattern', 'mod-quiz-*', ['id' => $this->instance->id]);
+        $debug && error_log($fxn . '::Set DB [pagetypepattern] = mod-quiz-*');
+
+        return true;
+    }
+
+    /**
+     * Change quiz config to show blocks during quiz attempt; and show all quiz questions on one page.
+     * 
+     * @return bool True if completes.
+     */
+    private function autoupdate_quiz_config():bool {
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug = true;
+        $debug && error_log($fxn . '::Started');
+
+        global $COURSE, $DB;
+        
+        // Find the quiz attached to this block.
+        $modulecontext = $this->context->get_parent_context();
+        $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
+        $modinfo = \get_fast_modinfo($COURSE, -1);
+        $cm = $modinfo->get_cm($modulecontext->instanceid);
+        $debug && error_log($fxn . '::Got $cm->instance=' . bqopp_u::var_dump($cm->instance, true));
+
+        // Get the quiz DB record.
+        $record = $DB->get_record('quiz', ['id' => (int) ($cm->instance)], '*', \MUST_EXIST);
+        $debug && error_log($fxn . '::Got record=' . bqopp_u::var_dump($record, true));
+        
+        // Update the quiz info.
+        $changedquizconfig = true;
+        if ($record->showblocks < 1) {
+            $record->showblocks = 1;
+            $changedquizconfig = true;
+        }
+        if ($record->questionsperpage !== 0) {
+            $record->questionsperpage = 0;
+            $changedquizconfig = true;
+        }
+
+        // If it has changed, save the updated quiz info.
+        if($changedquizconfig) {
+            $DB->update_record('quiz', $record);
         }
 
         return true;
@@ -125,6 +169,24 @@ class block_quizonepagepaginate extends block_base {
         // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
         $this->page->add_body_class('block_quizonepagepaginate');
     }
+
+    /**
+     * Return true if the block is configured to be visible.
+     *
+     * @return bool True if the block is configured to be visible.
+     */
+    public function is_visible(): bool
+    {
+        if (\property_exists($this, 'visible') && isset($this->visible) && \is_bool($this->visible)) {
+            return $this->visible;
+        }
+        if (\property_exists($this->instance, 'visible') && isset($this->instance->visible) && \is_bool($this->instance->visible)) {
+            return $this->instance->visible;
+        }
+
+        $parentcontext = $this->context->get_parent_context();
+        return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);
+    }
     
     /**
      * Creates the block's main content
@@ -132,14 +194,29 @@ class block_quizonepagepaginate extends block_base {
      * @return string|stdClass
      */
     public function get_content() {
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug = true;
+        $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
+        
+        // If the block is configured to be Hidden, disable the functionality entirely.
+        if(!$this->is_visible()) {
+            return '';
+        }
+
+        // Avoid Moodle generating the block content twice.
         if (isset($this->content)) {
             return $this->content;
         }
-        
+
+        // Run config autoupdates to force the settings.
+        $this->autoupdate_quiz_config();
+        $this->autoupdate_block_config();
+
+        // Add the block JS.
         $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init');
 
         $this->content = new stdClass;
-        $this->content->text = __FUNCTION__.'::Some block content here';
+        $this->content->text = \get_string('defaultcontent', \QUIZONEPAGEPAGINATE_BLOCK_NAME);
 
         return $this->content;
     }

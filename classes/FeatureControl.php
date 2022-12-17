@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,19 +12,24 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Simple block version identification
+ * Feature control: Enable/disable features easily.
  *
- * @package    block_accessreview
- * @copyright  2019 Karen Holland LTS.ie
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_quizonepagepaginate
+ * @author      Mark van Hoek <vhmark@gmail.com>
+ * @copyright   2022 IntegrityAdvocate.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+declare(strict_types=1);
+
+namespace block_quizonepagepaginate;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_quizonepagepaginate';
-$plugin->version   = 2022122608;
-$plugin->requires  = 2022111800;
+final class FeatureControl {
+
+    /** @var bool True to allow PHP-side caching using MUC. */
+    public const CACHE = false;
+}

@@ -38,7 +38,7 @@ class block_quizonepagepaginate {
     }
 
     run() {
-        let debug = true;
+        let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.run';
         if (debug) { window.console.log(FXN + '::Started'); }

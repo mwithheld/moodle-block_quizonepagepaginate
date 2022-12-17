@@ -27,5 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'One Page Paginate';
 $string['quizonepagepaginate:addinstance'] = 'Add an One Page Paginate block';
+$string['defaultcontent'] = 'This block is enabled.<br />This block will not show to students ever, or to teachers unless <a href="https://docs.moodle.org/401/en/Course_homepage">edit mode</a> is on.';
+
 $string['config_blockversion'] = 'Version';
-$string['privacy:metadata'] = 'The Text block stores all of its data within the block subsystem.';
+$string['config_topnote'] = 'Notes';
+$string['config_topnote_help'] = 'This block overwrites quiz config for: Layout:New Page to &quot;All questions on one page&quot; and &quot;Show blocks during quiz attempts&quot; to Yes.<br />This block will appear on &quot;Any quiz module page&quot; regardless of the &quot;Display on page types&quot; setting below.<br />The block will not show to students ever, or to teachers unless editing mode is on. If you Hide the block, you disable its features.';
+
+$string['privacy:metadata'] = 'This block does not store any privacy-relevant data.';
