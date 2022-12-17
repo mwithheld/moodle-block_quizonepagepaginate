@@ -53,6 +53,7 @@ class block_quizonepagepaginate {
 
         self.arrQuestions = document.querySelectorAll(self.eltQuestionsSelector);
         if (debug) { window.console.log(FXN + '::Found ' + self.arrQuestions.length + ' questions'); }
+        window.console.log(FXN + '::Un-hiding the configured number of quiz questions');
         Array.from(self.arrQuestions).slice(0, 2).forEach(elt => (elt.style.display = 'block'));
     }
 
@@ -60,10 +61,11 @@ class block_quizonepagepaginate {
 
 /**
  * Setup the module.
+ * @param {number} questionsperpage How many quiz questions to show at once.
  */
-export const init = () => {
+export const init = (questionsperpage) => {
     const FXN = 'block_quizonepagepaginate::init';
-    window.console.log(FXN + '::Started');
+    window.console.log(FXN + '::Started with questionsperpage=' + questionsperpage);
 
     // Execution starts here.
     M.block_quizonepagepaginate = new block_quizonepagepaginate();

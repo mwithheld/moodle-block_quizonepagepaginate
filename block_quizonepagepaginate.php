@@ -215,10 +215,18 @@ class block_quizonepagepaginate extends block_base {
         $this->autoupdate_quiz_config();
         $this->autoupdate_block_config();
 
-        $params = $this->config;
+        // Values to pass to JS.
+        $paramsforjs = [];
+        if (isset($this->config->questionsperpage) && is_numeric($this->config->questionsperpage)) {
+            $questionsperpage = $this->config->questionsperpage;
+        } else {
+            $questionsperpage = 1;
+        }
+        $debug && error_log($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
+        $paramsforjs[] = $questionsperpage;
 
         // Add the block JS.
-        $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init');
+        $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init', $paramsforjs);
 
         $this->content = new stdClass;
         $this->content->text = \get_string('defaultcontent', \QUIZONEPAGEPAGINATE_BLOCK_NAME);
