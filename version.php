@@ -26,5 +26,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_quizonepagepaginate';
-$plugin->version   = 2022122600;
+$plugin->version   = 2022122601;
 $plugin->requires  = 2022111800;
