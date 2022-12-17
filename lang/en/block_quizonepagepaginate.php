@@ -16,14 +16,20 @@
 
 
 /**
- * Simple block language strings
+ * Block language strings.
  *
- * @package    block_quizonepagepaginate
- * @copyright  2019 Karen Holland LTS.ie
+ * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 
-defined('MOODLE_INTERNAL') || die();
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'One Page Paginate';
 $string['quizonepagepaginate:addinstance'] = 'Add an One Page Paginate block';
@@ -31,6 +37,6 @@ $string['defaultcontent'] = 'This block is enabled.<br />This block will not sho
 
 $string['config_blockversion'] = 'Version';
 $string['config_topnote'] = 'Notes';
-$string['config_topnote_help'] = 'This block overwrites quiz config for: Layout:New Page to &quot;All questions on one page&quot; and &quot;Show blocks during quiz attempts&quot; to Yes.<br />This block will appear on &quot;Any quiz module page&quot; regardless of the &quot;Display on page types&quot; setting below.<br />The block will not show to students ever, or to teachers unless editing mode is on. If you Hide the block, you disable its features.';
+$string['config_topnote_help'] = 'This block overwrites quiz config for:<br />&nbsp;&nbsp;&bull;&nbsp;&quot;Layout &gt; New Page&quot; to &quot;All questions on one page&quot;<br />&nbsp;&nbsp;&bull;&nbsp;&quot;Appearance &gt; Show blocks during quiz attempts&quot; to &quot;Yes&quot;.<br />This block will appear on &quot;Any quiz module page&quot; regardless of the &quot;Display on page types&quot; setting below.<br />The block will not show to students ever, or to teachers unless editing mode is on. If you Hide the block, you disable its features.';
 
 $string['privacy:metadata'] = 'This block does not store any privacy-relevant data.';

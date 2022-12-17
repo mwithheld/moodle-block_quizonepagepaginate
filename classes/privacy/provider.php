@@ -15,25 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for block_quizonepagepaginate.
+ * Privacy subsystem implementation.
  *
- * @package    block_quizonepagepaginate
  * @copyright  2020 Brickfield Education Labs, www.brickfield.ie
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
+
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 namespace block_quizonepagepaginate\privacy;
 
 use \core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
-/**
- * The accessreview block stores a user preference data.
- *
- * @copyright  2020 Brickfield Education Labs, www.brickfield.ie
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class provider implements
     // This plugin stores no privacy-related data.
     \core_privacy\local\metadata\null_provider {

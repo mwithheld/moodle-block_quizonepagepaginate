@@ -17,17 +17,21 @@
 /**
  * Feature control: Enable/disable features easily.
  *
- * @package     block_quizonepagepaginate
- * @author      Mark van Hoek <vhmark@gmail.com>
- * @copyright   2022 IntegrityAdvocate.com
+ * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
 final class FeatureControl {
 

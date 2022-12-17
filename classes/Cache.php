@@ -17,9 +17,7 @@
 /**
  * Cache manager.
  *
- * @package     block_quizonepagepaginate
- * @author      Mark van Hoek <vhmark@gmail.com>
- * @copyright   2022 IntegrityAdvocate.com
+ * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
@@ -33,7 +31,7 @@ declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
 use block_quizonepagepaginate\Cache as bqopp_cache;
 use block_quizonepagepaginate\Utility as bqopp_u;

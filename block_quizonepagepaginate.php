@@ -14,20 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-\defined('MOODLE_INTERNAL') || die;
+/**
+ * Definition of the block.
+ *
+ * @copyright IntegrityAdvocate.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
+ */
+
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 require_once(__DIR__ . '/lib.php');
 
 use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
-/**
- * Definition of the accessreview block.
- *
- * @package   block_accessreview
- * @copyright 2019 Karen Holland LTS.ie
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class block_quizonepagepaginate extends block_base {
     /**
      * Sets the block title.
@@ -99,7 +106,7 @@ class block_quizonepagepaginate extends block_base {
 
     /**
      * Change block config to show this block on all quiz pages.
-     * 
+     *
      * @return bool True if completes.
      */
     private function autoupdate_block_config(): bool {
@@ -117,7 +124,7 @@ class block_quizonepagepaginate extends block_base {
 
     /**
      * Change quiz config to show blocks during quiz attempt; and show all quiz questions on one page.
-     * 
+     *
      * @return bool True if completes.
      */
     private function autoupdate_quiz_config(): bool {
@@ -162,7 +169,7 @@ class block_quizonepagepaginate extends block_base {
      * Use this function to act on instance data just after it's loaded and before anything else is done
      * For instance: if your block will have different title's depending on location (site, course, blog, etc)
      */
-    function specialization() {
+    public function specialization() {
         // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
         $this->page->add_body_class('block_quizonepagepaginate');
     }
@@ -191,7 +198,7 @@ class block_quizonepagepaginate extends block_base {
      */
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = false;
+        $debug = true;
         $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
@@ -207,6 +214,8 @@ class block_quizonepagepaginate extends block_base {
         // Run config autoupdates to force the settings.
         $this->autoupdate_quiz_config();
         $this->autoupdate_block_config();
+
+        $params = $this->config;
 
         // Add the block JS.
         $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init');

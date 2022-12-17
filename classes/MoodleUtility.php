@@ -17,9 +17,7 @@
 /**
  * Utility functions not specific to this module that interact with Moodle core.
  *
- * @package     block_quizonepagepaginate
- * @author      Mark van Hoek <vhmark@gmail.com>
- * @copyright   2022 IntegrityAdvocate.com
+ * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
@@ -41,9 +39,6 @@ use block_quizonepagepaginate\Cache as bqopp_cache;
 use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
-/**
- * Utility functions not specific to this module that interact with Moodle core.
- */
 final class MoodleUtility {
 
     /**

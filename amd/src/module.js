@@ -16,8 +16,7 @@
 /**
  * JS for this plugin.
  *
- * @author      Mark van Hoek <vhmark@gmail.com>
- * @copyright   2022 Service Alberta
+ * @copyright   2022 IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /* global window, M */

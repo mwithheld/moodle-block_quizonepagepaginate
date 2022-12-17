@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,27 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * IntegrityAdvocate block per-instance configuration form definition.
+ * Per-instance block config form class.
  *
- * @package    block_integrityadvocate
- * @copyright  IntegrityAdvocate.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright IntegrityAdvocate.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
+
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 use block_quizonepagepaginate\Utility as bqopp_u;
 
 require_once(__DIR__ . '/lib.php');
 
-\defined('MOODLE_INTERNAL') || die;
-
-//require_once($CFG->dirroot . '/blocks/integrityadvocate/lib.php');
-
-/**
- * IntegrityAdvocate per-instance block config form class.
- *
- * @copyright IntegrityAdvocate.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class block_quizonepagepaginate_edit_form extends block_edit_form {
 
     /**
@@ -73,7 +70,7 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
         $mform->addElement('static', 'topnote', get_string('config_topnote', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_string('config_topnote_help', \QUIZONEPAGEPAGINATE_BLOCK_NAME));
 
         $pageoptions = array();
-        // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.  
+        // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.
         for ($i = 0; $i <= QUIZ_MAX_QPP_OPTION; ++$i) {
             $pageoptions[$i] = $i;
         }

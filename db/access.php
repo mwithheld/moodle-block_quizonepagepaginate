@@ -16,14 +16,20 @@
 
 
 /**
- * accessreview capabilities definition
+ *  Module capabilities definition.
  *
- * @package    block_accessreview
- * @copyright  2019 Karen Holland LTS.ie
+ * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 
-defined('MOODLE_INTERNAL') || die();
+ declare(strict_types=1);
+ defined('MOODLE_INTERNAL') || die;
 
 $capabilities = array(
 

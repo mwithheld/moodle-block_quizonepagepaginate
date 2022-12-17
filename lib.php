@@ -14,16 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Lib library of functions.
  *
- * @package    block_quizonepagepaginate
- * @copyright  2019 Karen Holland LTS.ie
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright IntegrityAdvocate.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
+ * @tags
+ * @phpcs:disable moodle.Files.LineLength.MaxExceeded
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
+ * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 
-defined('MOODLE_INTERNAL') || die();
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 /** @var string Short name for this plugin. */
 const QUIZONEPAGEPAGINATE_SHORTNAME = 'quizonepagepaginate';
