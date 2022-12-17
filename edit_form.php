@@ -22,7 +22,9 @@
  * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-use block_quizonepagepaginate\Utility as qopp_u;
+
+use block_quizonepagepaginate\Utility as bqopp_u;
+
 require_once(__DIR__ . '/lib.php');
 
 \defined('MOODLE_INTERNAL') || die;
@@ -35,8 +37,7 @@ require_once(__DIR__ . '/lib.php');
  * @copyright IntegrityAdvocate.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_quizonepagepaginate_edit_form extends block_edit_form
-{
+class block_quizonepagepaginate_edit_form extends block_edit_form {
 
     /**
      * Overridden to create any form fields specific to this type of block.
@@ -47,8 +48,7 @@ class block_quizonepagepaginate_edit_form extends block_edit_form
      *
      * @param \stdClass|MoodleQuickForm $mform the form being built.
      */
-    protected function specific_definition($mform)
-    {
+    protected function specific_definition($mform) {
         if (!($mform instanceof MoodleQuickForm)) {
             throw new InvalidArgumentException('$mform must be an instance of MoodleQuickForm and it appears to be a ' . \gettype($mform));
         }
@@ -64,15 +64,22 @@ class block_quizonepagepaginate_edit_form extends block_edit_form
      *
      * @param MoodleQuickForm $mform the form being built.
      */
-    protected function specific_definition_custom(MoodleQuickForm $mform)
-    {
+    protected function specific_definition_custom(MoodleQuickForm $mform) {
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug = false;
+        $debug && error_log($fxn . '::Started with $mform=' . bqopp_u::var_dump($mform, true));
+
         $parentcontext = context::instance_by_id($this->block->instance->parentcontextid);
         $mform->addElement('static', 'topnote', get_string('config_topnote', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_string('config_topnote_help', \QUIZONEPAGEPAGINATE_BLOCK_NAME));
 
-        $elt = $mform->createElement('select', 'questionsperpage', get_string('newpage', 'quiz'), quiz_questions_per_page_options(), array('id' => 'id_questionsperpage'));
-        if(isset($mform->questionsperpage)) {
-            $mform->setDefault('questionsperpage', $mform->questionsperpage);
+        $pageoptions = array();
+        // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.  
+        for ($i = 0; $i <= QUIZ_MAX_QPP_OPTION; ++$i) {
+            $pageoptions[$i] = $i;
         }
+        $elt = $mform->createElement('select', 'config_questionsperpage', get_string('newpage', 'quiz'), $pageoptions, array('id' => 'id_questionsperpage'));
+        // Default to 1 question visible at a time.
+        $mform->setDefault('config_questionsperpage', 1);
         $mform->addElement($elt);
 
         $mform->addElement('static', 'blockversion', get_string('config_blockversion', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_config(\QUIZONEPAGEPAGINATE_BLOCK_NAME, 'version'));

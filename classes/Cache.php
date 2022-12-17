@@ -28,6 +28,7 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
+
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;

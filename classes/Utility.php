@@ -23,6 +23,7 @@
  * @copyright   2022 IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
@@ -45,7 +46,7 @@ final class Utility {
      */
     public static function is_empty($obj): bool {
         switch (true) {
-            case!\is_object($obj):
+            case !\is_object($obj):
                 return empty($obj);
             case is_string($obj):
                 return strlen($obj) < 1;
@@ -112,7 +113,7 @@ final class Utility {
      * @param object $b The second object to sort.
      * @return int 0 if the same; -1 if $a->created exceeds $b->created; else 1.
      */
-    public static function sort_by_created_desc(/* object */ $a, /* object */ $b): int {
+    public static function sort_by_created_desc(/* object */$a, /* object */ $b): int {
         if ($a->created == $b->created) {
             return 0;
         }
@@ -127,14 +128,14 @@ final class Utility {
      * @param object $b The second object to sort.
      * @return int 0 if the same; -1 if $a->start exceeds $b->start; else 1.
      */
-    public static function sort_by_start_desc(/* object */ $a, /* object */ $b): int {
+    public static function sort_by_start_desc(/* object */$a, /* object */ $b): int {
         if ($a->start == $b->start) {
             return 0;
         }
         return ($a->start > $b->start) ? -1 : 1;
     }
 
-    
+
     /**
      * Just wraps print_r(), but defaults to returning as a string.  If $expression is an object that has implemented __toString() then this is used.
      *
@@ -142,8 +143,7 @@ final class Utility {
      * @param bool $return <p>If you would like to capture the output of <b>print_r()</b>, use the <code>return</code> parameter. When this parameter is set to <b><code>TRUE</code></b>, <b>print_r()</b> will return the information rather than print it.</p>
      * @return mixed <p>If given a <code>string</code>, <code>integer</code> or <code>float</code>, the value itself will be printed. If given an <code>array</code>, values will be presented in a format that shows keys and elements. Similar notation is used for <code>object</code>s.</p><p>When the <code>return</code> parameter is <b><code>TRUE</code></b>, this function will return a <code>string</code>. Otherwise, the return value is <b><code>TRUE</code></b>.</p>
      */
-    public static function var_dump($expression, bool $return = true)
-    {
+    public static function var_dump($expression, bool $return = true) {
         if (self::is_empty($expression)) {
             return \print_r('', $return);
         }
@@ -168,7 +168,7 @@ final class Utility {
         // phpcs:ignore
         return \print_r(\preg_replace(INTEGRITYADVOCATE_REGEX_DATAURI, 'redacted_base64_image', \print_r($expression, true)), $return);
     }
-    
+
     /**
      * Returns the count (including if zero), or -1 if not countable.
      *
@@ -340,7 +340,7 @@ final class Utility {
      * @param string $format sprintf format to convert to.
      * @return string Formatted time string.
      */
-    public static function minutes_to_hours_mins(int $minutes, string $format = '%02d:%02d'):string {
+    public static function minutes_to_hours_mins(int $minutes, string $format = '%02d:%02d'): string {
         if ($minutes < 1) {
             return '';
         }

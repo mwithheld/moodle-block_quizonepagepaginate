@@ -29,4 +29,4 @@ defined('MOODLE_INTERNAL') || die();
 const QUIZONEPAGEPAGINATE_SHORTNAME = 'quizonepagepaginate';
 
 /** @var string Longer name for this plugin. */
-const QUIZONEPAGEPAGINATE_BLOCK_NAME = 'block_'.QUIZONEPAGEPAGINATE_SHORTNAME;
+const QUIZONEPAGEPAGINATE_BLOCK_NAME = 'block_' . QUIZONEPAGEPAGINATE_SHORTNAME;

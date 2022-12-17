@@ -20,7 +20,7 @@ require_once(__DIR__ . '/lib.php');
 
 use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
- 
+
 /**
  * Definition of the accessreview block.
  *
@@ -64,8 +64,7 @@ class block_quizonepagepaginate extends block_base {
      *
      * @return bool True if we have global config/settings data.
      */
-    public function has_config(): bool
-    {
+    public function has_config(): bool {
         return false;
     }
 
@@ -74,8 +73,7 @@ class block_quizonepagepaginate extends block_base {
      *
      * @return bool True if multiple instances of the block are allowed on a page.
      */
-    public function instance_allow_multiple(): bool
-    {
+    public function instance_allow_multiple(): bool {
         return false;
     }
 
@@ -84,10 +82,9 @@ class block_quizonepagepaginate extends block_base {
      *
      * @return bool True if we have additional initializations.
      */
-    public function instance_create()
-    {
+    public function instance_create() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If this is a quiz, auto-configure the quiz and this block.
@@ -105,9 +102,9 @@ class block_quizonepagepaginate extends block_base {
      * 
      * @return bool True if completes.
      */
-    private function autoupdate_block_config():bool {
+    private function autoupdate_block_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && error_log($fxn . '::Started');
 
         // Show the block on all quiz pages.
@@ -123,13 +120,13 @@ class block_quizonepagepaginate extends block_base {
      * 
      * @return bool True if completes.
      */
-    private function autoupdate_quiz_config():bool {
+    private function autoupdate_quiz_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && error_log($fxn . '::Started');
 
         global $COURSE, $DB;
-        
+
         // Find the quiz attached to this block.
         $modulecontext = $this->context->get_parent_context();
         $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
@@ -140,7 +137,7 @@ class block_quizonepagepaginate extends block_base {
         // Get the quiz DB record.
         $record = $DB->get_record('quiz', ['id' => (int) ($cm->instance)], '*', \MUST_EXIST);
         $debug && error_log($fxn . '::Got record=' . bqopp_u::var_dump($record, true));
-        
+
         // Update the quiz info.
         $changedquizconfig = true;
         if ($record->showblocks < 1) {
@@ -153,13 +150,13 @@ class block_quizonepagepaginate extends block_base {
         }
 
         // If it has changed, save the updated quiz info.
-        if($changedquizconfig) {
+        if ($changedquizconfig) {
             $DB->update_record('quiz', $record);
         }
 
         return true;
     }
-     
+
     /**
      * This function is called on your subclass right after an instance is loaded
      * Use this function to act on instance data just after it's loaded and before anything else is done
@@ -175,8 +172,7 @@ class block_quizonepagepaginate extends block_base {
      *
      * @return bool True if the block is configured to be visible.
      */
-    public function is_visible(): bool
-    {
+    public function is_visible(): bool {
         if (\property_exists($this, 'visible') && isset($this->visible) && \is_bool($this->visible)) {
             return $this->visible;
         }
@@ -187,7 +183,7 @@ class block_quizonepagepaginate extends block_base {
         $parentcontext = $this->context->get_parent_context();
         return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);
     }
-    
+
     /**
      * Creates the block's main content
      *
@@ -195,11 +191,11 @@ class block_quizonepagepaginate extends block_base {
      */
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
-        
+
         // If the block is configured to be Hidden, disable the functionality entirely.
-        if(!$this->is_visible()) {
+        if (!$this->is_visible()) {
             return '';
         }
 
@@ -220,5 +216,4 @@ class block_quizonepagepaginate extends block_base {
 
         return $this->content;
     }
-
 }

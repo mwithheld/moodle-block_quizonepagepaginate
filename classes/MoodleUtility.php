@@ -28,6 +28,7 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
+
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
@@ -471,8 +472,7 @@ final class MoodleUtility {
      * @param int $blockinstanceid The block instance id
      * @return bool true if the block is visible in the given context
      */
-    public static function is_block_visibile(int $parentcontextid, int $blockinstanceid): bool
-    {
+    public static function is_block_visibile(int $parentcontextid, int $blockinstanceid): bool {
         global $DB;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
