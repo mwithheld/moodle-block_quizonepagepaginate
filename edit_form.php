@@ -69,11 +69,8 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
         $parentcontext = context::instance_by_id($this->block->instance->parentcontextid);
         $mform->addElement('static', 'topnote', get_string('config_topnote', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_string('config_topnote_help', \QUIZONEPAGEPAGINATE_BLOCK_NAME));
 
-        $pageoptions = array();
         // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.
-        for ($i = 0; $i <= QUIZ_MAX_QPP_OPTION; ++$i) {
-            $pageoptions[$i] = $i;
-        }
+        $pageoptions = range(1,QUIZ_MAX_QPP_OPTION);
         $elt = $mform->createElement('select', 'config_questionsperpage', get_string('newpage', 'quiz'), $pageoptions, array('id' => 'id_questionsperpage'));
         // Default to 1 question visible at a time.
         $mform->setDefault('config_questionsperpage', 1);
