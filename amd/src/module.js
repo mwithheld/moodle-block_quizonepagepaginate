@@ -30,6 +30,11 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.constructor';
         if (debug) { window.console.log(FXN + '::Started with questionsperpage=', questionsperpage); }
 
+        if (!self.shouldUseThisBlockJs()) {
+            if (debug) { window.console.log(FXN + '::We should not use this block JS'); }
+            return;
+        }
+
         if (isNaN(questionsperpage)) {
             throw FXN + '::Invalid value passed for param questionsperpage';
         }
@@ -58,6 +63,11 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.run';
         if (debug) { window.console.log(FXN + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage); }
 
+        if (!self.shouldUseThisBlockJs()) {
+            if (debug) { window.console.log(FXN + '::We should not use this block JS'); }
+            return;
+        }
+
         self.getAllQuestions();
         self.addNextPrevButtons();
 
@@ -68,6 +78,22 @@ class block_quizonepagepaginate {
             self.firstQuestionToShow = requestedQuestionIndex;
         }
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
+    }
+
+    shouldUseThisBlockJs() {
+        let debug = false;
+        const self = this;
+        const FXN = self.constructor.name + '.getAnchorQuestionIndex';
+        if (debug) { window.console.log(FXN + '::Started'); }
+
+        // Use a result cache bc we will use it in the constructor and run() methods.
+        if (typeof self.shouldUseThisBlockJsVal == undefined) {
+            if (debug) { window.console.log(FXN + '::The self.shouldUseThisBlockJs is defined with val=', self.shouldUseThisBlockJsVal); }
+            return self.shouldUseThisBlockJsVal;
+        }
+        self.shouldUseThisBlockJsVal = document.body.id === 'page-mod-quiz-attempt';
+        if (debug) { window.console.log(FXN + '::Got self.shouldUseThisBlockJs=', self.shouldUseThisBlockJsVal); }
+        return self.shouldUseThisBlockJsVal;
     }
 
     /**
@@ -160,7 +186,7 @@ class block_quizonepagepaginate {
 
         self.arrQuestions.forEach(function(elt, index) {
             if (debug) { window.console.log(FXN + '::Looking at index=; elt=', index, elt); }
-            if (elt.id == questionNr) {
+            if (elt.id === questionNr) {
                 if (debug) { window.console.log(FXN + '.forEach::Found matching index=', index); }
                 indexFound = index;
                 return;
@@ -222,6 +248,9 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Started with self.eltQuizFinishAttemptButtonSelector=', self.eltQuizFinishAttemptButtonSelector); }
 
         const eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
+        if (eltCloneSource === null) {
+            throw FXN + '::No button found to clone';
+        }
 
         // String are returned in a plain array in the same order specified here.
         // E.g. [0 => "Previous", 1 => "Next"].
@@ -267,8 +296,9 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Started'); }
 
         const eltClone = eltCloneSource.cloneNode();
-        const prevval = (nextorprev == 'prev' ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
-        const prevdisplay = strings[(nextorprev == 'prev' ? 0 : 1)];
+        const isPrev = nextorprev === 'prev';
+        const prevval = (isPrev ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
+        const prevdisplay = strings[(isPrev ? 0 : 1)];
         eltClone.setAttribute('id', prevval);
         eltClone.setAttribute('class', eltClone.getAttribute('class').replace('btn-primary', 'btn-secondary'));
         eltClone.setAttribute('name', prevval);
