@@ -30,9 +30,11 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.constructor';
         if (debug) { window.console.log(FXN + '::Started'); }
 
-        // Init class vars.
         // How many quiz questions to show at one time.
         self.questionsperpage = questionsperpage;
+
+        // The index of the first quiz question to show.
+        self.firstQuestionToShow = 0;
 
         // Used to locate the quiz questions on the page.
         self.eltQuestionsSelector = '#page-mod-quiz-attempt #responseform .que';
@@ -47,15 +49,18 @@ class block_quizonepagepaginate {
         let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.run';
-        if (debug) { window.console.log(FXN + '::Started'); }
+        if (debug) {
+            window.console.log(FXN + '::Started with self.firstQuestionToShow=; self.questionsperpage=',
+                self.firstQuestionToShow, self.questionsperpage);
+        }
 
         self.getAllQuestions();
-        self.hideShowQuestions();
+        self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
         self.addNextPrevButtons();
     }
 
     getAllQuestions() {
-        let debug = true;
+        let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.getAllQuestions';
         if (debug) { window.console.log(FXN + '::Started'); }
@@ -64,15 +69,13 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Found ' + self.arrQuestions.length + ' questions on the page'); }
     }
 
-    hideShowQuestions() {
+    hideShowQuestions(first = 0, length) {
         let debug = true;
         let self = this;
         const FXN = self.constructor.name + '.hideShowQuestions';
-        if (debug) { window.console.log(FXN + '::Started'); }
+        if (debug) { window.console.log(FXN + '::Started with start=; length=', first, length); }
 
-        var first = 0;
-        var length = self.questionsperpage;
-        var last = first + length;
+        const last = first + length;
 
         self.arrQuestions.forEach(function(elt, index) {
             window.console.log(FXN + '::Looking at index=; elt=', index, elt);
@@ -101,11 +104,11 @@ class block_quizonepagepaginate {
                 self.eltQuizFinishAttemptButtonSelector);
         }
 
-        var eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
+        let eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
 
         // String are returned in a plain array in the same order specified here.
         // E.g. [0 => "Previous", 1 => "Next"].
-        var stringsToRetrieve = [{
+        const stringsToRetrieve = [{
                 key: 'previous',
                 component: 'core'
             },
@@ -125,28 +128,40 @@ class block_quizonepagepaginate {
                         window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved);
                     }
 
-                    self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
-                    self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
+                    let eltPrevInDom = self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
+                    eltPrevInDom.addEventListener('click',
+                        function() {
+                            window.console.log('Clicked the prev button');
+                        });
+
+                    let eltNextInDom = self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
+                    eltNextInDom.addEventListener('click',
+                        function() {
+                            window.console.log('Clicked the next button');
+                        });
                 });
         });
     }
 
+    /**
+     *
+     * @param {DomElement} eltCloneSource
+     * @param {string} nextorprev
+     * @param {Array<string>} strings
+     * @returns The DomElement we just inserted
+     */
     addPrevNextButton(eltCloneSource, nextorprev, strings) {
-        var eltClone = eltCloneSource.cloneNode();
-        var prevval = self.constructor.name + '-' + nextorprev;
-        var prevdisplay = strings[(nextorprev == 'prev' ? 0 : 1)];
+        let eltClone = eltCloneSource.cloneNode();
+        const prevval = self.constructor.name + '-' + nextorprev;
+        const prevdisplay = strings[(nextorprev == 'prev' ? 0 : 1)];
         eltClone.setAttribute('id', prevval);
         eltClone.setAttribute('class', eltClone.getAttribute('class').replace('btn-primary', 'btn-secondary'));
         eltClone.setAttribute('name', prevval);
         eltClone.setAttribute('type', prevval);
         eltClone.setAttribute('value', prevdisplay);
         eltClone.setAttribute('data-initial-value', prevdisplay);
-        var eltInDom = (eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource));
-        eltInDom.addEventListener('click',
-            function() {
-                window.console.log('Clicked the ' + nextorprev + ' button');
-            });
-        return eltInDom;
+
+        return eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource);
     }
 }
 
