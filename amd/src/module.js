@@ -50,7 +50,7 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Started'); }
 
         self.getAllQuestions();
-        self.hideAllQuestions();
+        self.hideQuestions();
         self.showQuestions();
         self.addNextPrevButtons();
     }
@@ -65,10 +65,10 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Found ' + self.arrQuestions.length + ' questions on the page'); }
     }
 
-    hideAllQuestions() {
+    hideQuestions() {
         let debug = true;
         let self = this;
-        const FXN = self.constructor.name + '.hideAllQuestions';
+        const FXN = self.constructor.name + '.hideQuestions';
         if (debug) { window.console.log(FXN + '::Started'); }
 
         window.console.log(FXN + '::About to hide all ' + self.arrQuestions.length + ' quiz questions on the page');
@@ -83,10 +83,6 @@ class block_quizonepagepaginate {
 
         window.console.log(FXN + '::About to unhide the first ' + self.questionsperpage + ' quiz questions');
         Array.from(self.arrQuestions).slice(0, self.questionsperpage).forEach(elt => (elt.style.display = 'block'));
-    }
-
-    getStrings() {
-
     }
 
     addNextPrevButtons() {
@@ -131,7 +127,10 @@ class block_quizonepagepaginate {
                     eltPrev.setAttribute('type', prevval);
                     eltPrev.setAttribute('value', prevdisplay);
                     eltPrev.setAttribute('data-initial-value', prevdisplay);
-                    elt.parentNode.insertBefore(eltPrev, elt);
+                    (elt.parentNode.insertBefore(eltPrev, elt)).addEventListener('click',
+                        function() {
+                            window.console.log('Clicked the previous button');
+                        });
 
                     var eltNext = elt.cloneNode();
                     var nextval = self.constructor.name + '-next';
@@ -142,7 +141,10 @@ class block_quizonepagepaginate {
                     eltNext.setAttribute('type', nextval);
                     eltNext.setAttribute('value', nextdisplay);
                     eltNext.setAttribute('data-initial-value', nextdisplay);
-                    elt.parentNode.insertBefore(eltNext, elt);
+                    (elt.parentNode.insertBefore(eltNext, elt)).addEventListener('click',
+                        function() {
+                            window.console.log('Clicked the next button');
+                        });
                 });
         });
     }
