@@ -21,18 +21,21 @@
  */
 /* global window, M */
 /* eslint-env es6, node */
-/* eslint-disable no-control-regex, no-alert */
+/* eslint-disable no-control-regex, no-alert, max-len */
 
 class block_quizonepagepaginate {
     constructor(questionsperpage) {
         let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.constructor';
-        if (debug) { window.console.log(FXN + '::Started'); }
+        if (debug) { window.console.log(FXN + '::Started with questionsperpage=', questionsperpage); }
+
+        if (isNaN(questionsperpage)) {
+            throw FXN + '::Invalid value passed for param questionsperpage';
+        }
 
         // How many quiz questions to show at one time.
-        self.questionsperpage = questionsperpage;
-
+        self.questionsperpage = parseInt(questionsperpage);
         // The index of the first quiz question to show.
         self.firstQuestionToShow = 0;
 
@@ -40,6 +43,10 @@ class block_quizonepagepaginate {
         self.eltQuestionsSelector = '#page-mod-quiz-attempt #responseform .que';
         // Used to place this plugin's JS-driven next/prev nav buttons.
         self.eltQuizFinishAttemptButtonSelector = '#responseform .submitbtns .mod_quiz-next-nav';
+        // Button to show tne previous questions.
+        self.eltBqoppButtonPrev = self.constructor.name + '-prev';
+        // Button to show tne next questions.
+        self.eltBqoppButtonNext = self.constructor.name + '-next';
 
         // Holds all the current page quiz questions, visible or not.
         self.arrQuestions = [];
@@ -49,10 +56,7 @@ class block_quizonepagepaginate {
         let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.run';
-        if (debug) {
-            window.console.log(FXN + '::Started with self.firstQuestionToShow=; self.questionsperpage=',
-                self.firstQuestionToShow, self.questionsperpage);
-        }
+        if (debug) { window.console.log(FXN + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage); }
 
         self.getAllQuestions();
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
@@ -70,18 +74,20 @@ class block_quizonepagepaginate {
     }
 
     hideShowQuestions(first = 0, length) {
-        let debug = true;
-        let self = this;
+        let debug = false;
+        let self = M.block_quizonepagepaginate;
         const FXN = self.constructor.name + '.hideShowQuestions';
         if (debug) { window.console.log(FXN + '::Started with start=; length=', first, length); }
 
         const last = first + length;
+        let countVisible = 0;
 
         self.arrQuestions.forEach(function(elt, index) {
-            window.console.log(FXN + '::Looking at index=; elt=', index, elt);
-            if (index >= first && index < last) {
+            if (debug) { window.console.log(FXN + '::Looking at index=; elt=', index, elt); }
+            if (index >= first && index < last && countVisible < self.questionsperpage) {
                 if (debug) { window.console.log(FXN + '::Show this elt'); }
                 self.setDisplayVal(elt, 'block');
+                countVisible++;
             } else {
                 if (debug) { window.console.log(FXN + '::Hide this elt'); }
                 self.setDisplayVal(elt, 'none');
@@ -90,19 +96,14 @@ class block_quizonepagepaginate {
     }
 
     setDisplayVal(elt, displayVal) {
-        if (elt.style.display !== displayVal) {
-            elt.style.display = displayVal;
-        }
+        elt.style.display = displayVal;
     }
 
     addNextPrevButtons() {
-        let debug = true;
+        let debug = false;
         let self = this;
         const FXN = self.constructor.name + '.addNextPrevButtons';
-        if (debug) {
-            window.console.log(FXN + '::Started with self.eltQuizFinishAttemptButtonSelector=',
-                self.eltQuizFinishAttemptButtonSelector);
-        }
+        if (debug) { window.console.log(FXN + '::Started with self.eltQuizFinishAttemptButtonSelector=', self.eltQuizFinishAttemptButtonSelector); }
 
         let eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
 
@@ -124,21 +125,13 @@ class block_quizonepagepaginate {
 
             str.get_strings(stringsToRetrieve).then(
                 function(stringsRetrieved) {
-                    if (debug) {
-                        window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved);
-                    }
+                    if (debug) { window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved); }
 
                     let eltPrevInDom = self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
-                    eltPrevInDom.addEventListener('click',
-                        function() {
-                            window.console.log('Clicked the prev button');
-                        });
+                    eltPrevInDom.addEventListener('click', self.buttonClickedPrev);
 
                     let eltNextInDom = self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
-                    eltNextInDom.addEventListener('click',
-                        function() {
-                            window.console.log('Clicked the next button');
-                        });
+                    eltNextInDom.addEventListener('click', self.buttonClickedNext);
                 });
         });
     }
@@ -152,7 +145,7 @@ class block_quizonepagepaginate {
      */
     addPrevNextButton(eltCloneSource, nextorprev, strings) {
         let eltClone = eltCloneSource.cloneNode();
-        const prevval = self.constructor.name + '-' + nextorprev;
+        const prevval = (nextorprev == 'prev' ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
         const prevdisplay = strings[(nextorprev == 'prev' ? 0 : 1)];
         eltClone.setAttribute('id', prevval);
         eltClone.setAttribute('class', eltClone.getAttribute('class').replace('btn-primary', 'btn-secondary'));
@@ -162,6 +155,70 @@ class block_quizonepagepaginate {
         eltClone.setAttribute('data-initial-value', prevdisplay);
 
         return eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource);
+    }
+
+    buttonClickedPrev() {
+        let debug = false;
+        let self = M.block_quizonepagepaginate;
+        const FXN = self.constructor.name + '.buttonClickedPrev';
+        if (debug) { window.console.log(FXN + '::Started'); }
+
+        self.updateVisibleQuestionRange(false);
+        self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
+    }
+
+    buttonClickedNext() {
+        let debug = false;
+        let self = M.block_quizonepagepaginate;
+        const FXN = self.constructor.name + '.buttonClickedNext';
+        if (debug) { window.console.log(FXN + '::Started'); }
+
+        self.updateVisibleQuestionRange(true);
+        self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
+    }
+
+    updateVisibleQuestionRange(getNextSet = true) {
+        let debug = false;
+        let self = M.block_quizonepagepaginate;
+        const FXN = self.constructor.name + '.updateVisibleQuestionRange';
+        if (debug) {
+            window.console.log(FXN + '::Started with getNextSet=', getNextSet);
+        }
+
+        let firstOfAllQs = 0;
+        let lengthToShow = self.questionsperpage;
+        let lastOfAllQs = self.arrQuestions.length;
+        if (debug) { window.console.log(FXN + '::Start; firstOfAllQs=' + firstOfAllQs + '; lengthToShow=' + lengthToShow + '; lastOfAllQs=' + lastOfAllQs); }
+
+        if (getNextSet) {
+            // Propose to jump to the next set of questions.
+            let proposedStart = self.firstQuestionToShow + lengthToShow;
+            if (debug) { window.console.log(FXN + '::Proposed start of the next set of questions=', proposedStart); }
+
+            // Check that the [proposed range of setLength questions] is within the [total range of questions].
+            if (proposedStart + lengthToShow < lastOfAllQs) {
+                self.firstQuestionToShow = proposedStart;
+                if (debug) { window.console.log(FXN + '::The proposedStart + lengthToShow is below the max range, so set self.firstQuestionToShow=', self.firstQuestionToShow); }
+            } else {
+                self.firstQuestionToShow = lastOfAllQs - lengthToShow;
+                if (debug) { window.console.log(FXN + '::The proposedStart + lengthToShow is above the max range, so set self.firstQuestionToShow=', self.firstQuestionToShow); }
+            }
+        } else {
+            // Propose to jump to the next set of questions.
+            let proposedStart = self.firstQuestionToShow - lengthToShow;
+            window.console.log(FXN + '::Proposed start of the next set of questions=', proposedStart);
+
+            // Check that the [proposed range of setLength questions] is within the [total range of questions].
+            if (proposedStart < firstOfAllQs) {
+                if (debug) { window.console.log(FXN + '::The proposedStart is below the min range, so set self.firstQuestionToShow=', self.firstQuestionToShow); }
+                self.firstQuestionToShow = firstOfAllQs;
+            } else {
+                if (debug) { window.console.log(FXN + '::The proposedStart is within the min range, so set self.firstQuestionToShow=', self.firstQuestionToShow); }
+                self.firstQuestionToShow = proposedStart;
+            }
+        }
+
+        if (debug) { window.console.log(FXN + '::Done; firstOfAllQs=' + firstOfAllQs + '; lengthToShow=' + lengthToShow + '; lastOfAllQs=' + lastOfAllQs); }
     }
 }
 
@@ -175,7 +232,11 @@ export const init = (questionsperpage) => {
     const FXN = 'block_quizonepagepaginate::init';
     if (debug) { window.console.log(FXN + '::Started with questionsperpage=' + questionsperpage); }
 
-    M.block_quizonepagepaginate = new block_quizonepagepaginate(questionsperpage);
-    //if (debug) { window.console.log('M.block_quizonepagepaginate::Built class=', M.block_quizonepagepaginate); }
-    M.block_quizonepagepaginate.run();
+    try {
+        M.block_quizonepagepaginate = new block_quizonepagepaginate(questionsperpage);
+        //if (debug) { window.console.log('M.block_quizonepagepaginate::Built class=', M.block_quizonepagepaginate); }
+        M.block_quizonepagepaginate.run();
+    } catch (e) {
+        window.console.log.error(e);
+    }
 };
