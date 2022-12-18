@@ -50,8 +50,7 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Started'); }
 
         self.getAllQuestions();
-        self.hideQuestions();
-        self.showQuestions();
+        self.hideShowQuestions();
         self.addNextPrevButtons();
     }
 
@@ -65,24 +64,31 @@ class block_quizonepagepaginate {
         if (debug) { window.console.log(FXN + '::Found ' + self.arrQuestions.length + ' questions on the page'); }
     }
 
-    hideQuestions() {
+    hideShowQuestions() {
         let debug = true;
         let self = this;
-        const FXN = self.constructor.name + '.hideQuestions';
+        const FXN = self.constructor.name + '.hideShowQuestions';
         if (debug) { window.console.log(FXN + '::Started'); }
 
-        window.console.log(FXN + '::About to hide all ' + self.arrQuestions.length + ' quiz questions on the page');
-        Array.from(self.arrQuestions).forEach(elt => (elt.style.display = 'none'));
+        var start = 0;
+        var length = self.questionsperpage;
+
+        self.arrQuestions.forEach(function(elt, index) {
+            window.console.log(FXN + '::Looking at index=; elt=', index, elt);
+            if (index >= start && index < (start + length)) {
+                if (debug) { window.console.log(FXN + '::Show this elt'); }
+                self.setDisplayVal(elt, 'block');
+            } else {
+                if (debug) { window.console.log(FXN + '::Hide this elt'); }
+                self.setDisplayVal(elt, 'none');
+            }
+        });
     }
 
-    showQuestions() {
-        let debug = true;
-        let self = this;
-        const FXN = self.constructor.name + '.showQuestions';
-        if (debug) { window.console.log(FXN + '::Started'); }
-
-        window.console.log(FXN + '::About to unhide the first ' + self.questionsperpage + ' quiz questions');
-        Array.from(self.arrQuestions).slice(0, self.questionsperpage).forEach(elt => (elt.style.display = 'block'));
+    setDisplayVal(elt, displayVal) {
+        if (elt.style.display !== displayVal) {
+            elt.style.display = displayVal;
+        }
     }
 
     addNextPrevButtons() {
@@ -148,7 +154,6 @@ class block_quizonepagepaginate {
                 });
         });
     }
-
 }
 
 /**
