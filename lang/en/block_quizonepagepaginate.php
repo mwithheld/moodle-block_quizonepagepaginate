@@ -38,5 +38,6 @@ $string['defaultcontent'] = 'This block is enabled.<br />This block will not sho
 $string['config_blockversion'] = 'Version';
 $string['config_topnote'] = 'Notes';
 $string['config_topnote_help'] = 'This block overwrites quiz config for:<br />&nbsp;&nbsp;&bull;&nbsp;&quot;Layout &gt; New Page&quot; to &quot;All questions on one page&quot;<br />&nbsp;&nbsp;&bull;&nbsp;&quot;Appearance &gt; Show blocks during quiz attempts&quot; to &quot;Yes&quot;.<br />This block will appear on &quot;Any quiz module page&quot; regardless of the &quot;Display on page types&quot; setting below.<br />The block will not show to students ever, or to teachers unless editing mode is on. If you Hide the block, you disable its features.';
+$string['config_questionsperpage'] = 'Show this many questions at a time';
 
 $string['privacy:metadata'] = 'This block does not store any privacy-relevant data.';

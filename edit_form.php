@@ -75,7 +75,7 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
         $pageoptions = array_combine($range, $range);
 
         // The field name must be config_* for it to be saved in the list of values.
-        $elt = $mform->createElement('select', 'config_questionsperpage', get_string('newpage', 'quiz'), $pageoptions, array('id' => 'id_questionsperpage'));
+        $elt = $mform->createElement('select', 'config_questionsperpage', get_string('config_questionsperpage', \QUIZONEPAGEPAGINATE_BLOCK_NAME), $pageoptions, array('id' => 'id_questionsperpage'));
         // Default to 1 question visible at a time.
         $mform->setDefault('config_questionsperpage', 1);
         $mform->addElement($elt);
