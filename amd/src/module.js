@@ -70,12 +70,13 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.hideShowQuestions';
         if (debug) { window.console.log(FXN + '::Started'); }
 
-        var start = 0;
+        var first = 0;
         var length = self.questionsperpage;
+        var last = first + length;
 
         self.arrQuestions.forEach(function(elt, index) {
             window.console.log(FXN + '::Looking at index=; elt=', index, elt);
-            if (index >= start && index < (start + length)) {
+            if (index >= first && index < last) {
                 if (debug) { window.console.log(FXN + '::Show this elt'); }
                 self.setDisplayVal(elt, 'block');
             } else {
@@ -100,7 +101,7 @@ class block_quizonepagepaginate {
                 self.eltQuizFinishAttemptButtonSelector);
         }
 
-        var elt = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
+        var eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
 
         // String are returned in a plain array in the same order specified here.
         // E.g. [0 => "Previous", 1 => "Next"].
@@ -124,35 +125,28 @@ class block_quizonepagepaginate {
                         window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved);
                     }
 
-                    var eltPrev = elt.cloneNode();
-                    var prevval = self.constructor.name + '-prev';
-                    var prevdisplay = stringsRetrieved[0];
-                    eltPrev.setAttribute('id', prevval);
-                    eltPrev.setAttribute('class', eltPrev.getAttribute('class').replace('btn-primary', 'btn-secondary'));
-                    eltPrev.setAttribute('name', prevval);
-                    eltPrev.setAttribute('type', prevval);
-                    eltPrev.setAttribute('value', prevdisplay);
-                    eltPrev.setAttribute('data-initial-value', prevdisplay);
-                    (elt.parentNode.insertBefore(eltPrev, elt)).addEventListener('click',
-                        function() {
-                            window.console.log('Clicked the previous button');
-                        });
-
-                    var eltNext = elt.cloneNode();
-                    var nextval = self.constructor.name + '-next';
-                    var nextdisplay = stringsRetrieved[1];
-                    eltNext.setAttribute('id', nextval);
-                    eltNext.setAttribute('class', eltNext.getAttribute('class').replace('btn-primary', 'btn-secondary'));
-                    eltNext.setAttribute('name', nextval);
-                    eltNext.setAttribute('type', nextval);
-                    eltNext.setAttribute('value', nextdisplay);
-                    eltNext.setAttribute('data-initial-value', nextdisplay);
-                    (elt.parentNode.insertBefore(eltNext, elt)).addEventListener('click',
-                        function() {
-                            window.console.log('Clicked the next button');
-                        });
+                    self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
+                    self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
                 });
         });
+    }
+
+    addPrevNextButton(eltCloneSource, nextorprev, strings) {
+        var eltClone = eltCloneSource.cloneNode();
+        var prevval = self.constructor.name + '-' + nextorprev;
+        var prevdisplay = strings[(nextorprev == 'prev' ? 0 : 1)];
+        eltClone.setAttribute('id', prevval);
+        eltClone.setAttribute('class', eltClone.getAttribute('class').replace('btn-primary', 'btn-secondary'));
+        eltClone.setAttribute('name', prevval);
+        eltClone.setAttribute('type', prevval);
+        eltClone.setAttribute('value', prevdisplay);
+        eltClone.setAttribute('data-initial-value', prevdisplay);
+        var eltInDom = (eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource));
+        eltInDom.addEventListener('click',
+            function() {
+                window.console.log('Clicked the ' + nextorprev + ' button');
+            });
+        return eltInDom;
     }
 }
 
