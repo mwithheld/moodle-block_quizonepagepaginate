@@ -71,8 +71,8 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
         $mform->addElement('static', 'topnote', get_string('config_topnote', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_string('config_topnote_help', \QUIZONEPAGEPAGINATE_BLOCK_NAME));
 
         // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.
-        $range = range(1,QUIZ_MAX_QPP_OPTION);
-        $pageoptions = array_combine($range, $range); 
+        $range = range(1, QUIZ_MAX_QPP_OPTION);
+        $pageoptions = array_combine($range, $range);
 
         // The field name must be config_* for it to be saved in the list of values.
         $elt = $mform->createElement('select', 'config_questionsperpage', get_string('newpage', 'quiz'), $pageoptions, array('id' => 'id_questionsperpage'));
