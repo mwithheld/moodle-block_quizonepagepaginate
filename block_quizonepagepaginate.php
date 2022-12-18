@@ -218,7 +218,7 @@ class block_quizonepagepaginate extends block_base {
         // Values to pass to JS.
         $paramsforjs = [];
         if (isset($this->config->questionsperpage) && is_numeric($this->config->questionsperpage)) {
-            $questionsperpage = $this->config->questionsperpage;
+            $questionsperpage = intval($this->config->questionsperpage);
         } else {
             $questionsperpage = 1;
         }
