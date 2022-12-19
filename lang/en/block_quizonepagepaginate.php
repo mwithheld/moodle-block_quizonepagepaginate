@@ -32,8 +32,10 @@ declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'One Page Paginate';
+$string['defaultcontent'] = 'This block is enabled.<br />This block will not show to students ever, or to teachers unless <a href="https://docs.moodle.org/401/en/Course_homepage">edit mode</a> is on.<br />If you Hide the block, you disable its features.';
+
 $string['quizonepagepaginate:addinstance'] = 'Add an One Page Paginate block';
-$string['defaultcontent'] = 'This block is enabled.<br />This block will not show to students ever, or to teachers unless <a href="https://docs.moodle.org/401/en/Course_homepage">edit mode</a> is on.';
+$string['quizonepagepaginate:view'] = 'View the One Page Paginate block';
 
 $string['config_blockversion'] = 'Version';
 $string['config_topnote'] = 'Notes';
