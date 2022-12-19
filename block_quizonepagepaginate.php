@@ -202,6 +202,7 @@ class block_quizonepagepaginate extends block_base {
         $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
+        // This is just in case bc Moodle should not allow us to get here.
         if (!$this->is_visible()) {
             return '';
         }
