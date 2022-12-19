@@ -71,8 +71,11 @@ class block_quizonepagepaginate {
         self.getAllQuestions();
         self.addNextPrevButtons();
 
+        // Handle changes to URL anchor.
+        window.addEventListener('hashchange', self.handleAnchorChange);
+
         // Find the question index matching the question-* number.
-        const requestedQuestionIndex = self.getAnchorQuestionIndex();
+        const requestedQuestionIndex = self.getAnchorQuestionIndex(document.URL);
         if (debug) { window.console.log(FXN + '::Got requestedQuestionIndex=', requestedQuestionIndex); }
         if (requestedQuestionIndex >= 0) {
             self.firstQuestionToShow = requestedQuestionIndex;
@@ -99,9 +102,10 @@ class block_quizonepagepaginate {
     /**
      * If the URL anchor value matches /question-\d+-\d+/, get the index of the self.arrQuestions item that matches.
      *
-     * @returns {number} The matchin index in self.arrQuestions; else -1.
+     * @param {string} url URL containing the anchor e.g. "https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#question-23-9".
+     * @returns {number} The matching index in self.arrQuestions; else -1.
      */
-    getAnchorQuestionIndex() {
+    getAnchorQuestionIndex(url = '') {
         let debug = false;
         const self = this;
         const FXN = self.constructor.name + '.getAnchorQuestionIndex';
@@ -109,9 +113,9 @@ class block_quizonepagepaginate {
 
         let questionIndex = -1;
 
-        const anchor = self.getAnchor();
+        const anchor = self.getAnchor(url);
         if (debug) { window.console.log(FXN + '::Got anchor=', anchor); }
-        if (!anchor) {
+        if (!anchor || anchor.length < 'question-1-1'.length) {
             return questionIndex;
         }
 
@@ -128,17 +132,18 @@ class block_quizonepagepaginate {
     /**
      * Get the URL anchor value.
      *
-     * @returns {string} The URL anchor value (e.g. "blah" in url=http://bloo#blah); else return empty string.
+     * @param {string} url A URL to get the anchor value from e.g. "https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#blah".
+     * @returns {string} The URL anchor value (e.g. "blah" in url=https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#blah); else return empty string.
      */
-    getAnchor() {
-        return (document.URL.split('#').length > 1) ? document.URL.split('#')[1] : null;
+    getAnchor(url = '') {
+        return (url.split('#').length > 1) ? url.split('#')[1] : null;
     }
 
     /**
      * Extract the question sequence number from the URL anchor text.
      *
-     * @param {string} anchor The URL anchor string (e.g. "blah" in url=http://bloo#blah).
-     * @returns {string} The question number e.g. "question-23-9" from the URL anchor value (e.g. from http://bloo#question-23-9); else return empty string.
+     * @param {string} anchor The URL anchor string (e.g. "blah" in url=https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#blah).
+     * @returns {string} The question number e.g. "question-23-9" from the URL anchor value (e.g. from https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#question-23-9); else return empty string.
      */
     getAnchorQuestionNr(anchor = '') {
         let debug = false;
@@ -335,9 +340,7 @@ class block_quizonepagepaginate {
         let debug = false;
         const self = M.block_quizonepagepaginate;
         const FXN = self.constructor.name + '.updateVisibleQuestionRange';
-        if (debug) {
-            window.console.log(FXN + '::Started with getNextSet=', getNextSet);
-        }
+        if (debug) { window.console.log(FXN + '::Started with getNextSet=', getNextSet); }
 
         const firstOfAllQs = 0;
         const lengthToShow = self.questionsperpage;
@@ -373,6 +376,62 @@ class block_quizonepagepaginate {
         }
 
         if (debug) { window.console.log(FXN + '::Done; firstOfAllQs=' + firstOfAllQs + '; lengthToShow=' + lengthToShow + '; lastOfAllQs=' + lastOfAllQs); }
+    }
+
+    handleAnchorChange(e) {
+        let debug = false;
+        const self = M.block_quizonepagepaginate;
+        const FXN = self.constructor.name + '.handleAnchorChange';
+        if (debug) { window.console.log(FXN + '::Started with e=', e); }
+
+        const target = e.target || e.srcElement;
+        if (debug) { window.console.log('Found target=', target); }
+
+        // Only continue if are working from a valid source.
+        let foundHref = '';
+
+        // Handle typed-in URL anchor changes.
+        if (self.isWindowObj(target)) {
+            foundHref = window.location.href;
+            if (debug) { window.console.log(FXN + '::Found window href=', foundHref); }
+        }
+
+        // Handle mod_quiz_navblock anchor clicks.
+        if (foundHref.length < 1) {
+            // Is target a child of a mod_quiz_navblock instance?
+            const eltBlock = target.closest('#mod_quiz_navblock');
+            if (!eltBlock) {
+                if (debug) { window.console.log('The target is not a child of the quiz navigation block so skip out'); }
+                return;
+            }
+
+            // In mod_quiz_navblock the target is a span that is a child of the a element, so get the a element and check it is a Quiz Navigation button.
+            const closestA = target.closest('a.qnbutton');
+            if (debug) { window.console.log('Found closestA=', closestA); }
+            if (!closestA) {
+                if (debug) { window.console.log('This is not a targeted element so skip out'); }
+                return;
+            }
+
+            foundHref = closestA.href;
+            if (debug) { window.console.log('Found foundHref', foundHref); }
+        }
+
+        if (foundHref.length < 1) {
+            if (debug) { window.console.log('No valid href found so skip out'); }
+            return;
+        }
+
+        const requestedQuestionIndex = self.getAnchorQuestionIndex(foundHref);
+        if (debug) { window.console.log(FXN + '::Got requestedQuestionIndex=', requestedQuestionIndex); }
+        if (requestedQuestionIndex >= 0) {
+            self.firstQuestionToShow = requestedQuestionIndex;
+        }
+        self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
+    }
+
+    isWindowObj(obj) {
+        return obj && obj.document && obj.location && obj.alert && obj.setInterval;
     }
 }
 
