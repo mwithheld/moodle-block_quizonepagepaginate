@@ -28,9 +28,10 @@
  */
 
 declare(strict_types=1);
-defined('MOODLE_INTERNAL') || die;
 
 namespace block_quizonepagepaginate\privacy;
+
+defined('MOODLE_INTERNAL') || die;
 
 use \core_privacy\local\metadata\collection;
 
