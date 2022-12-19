@@ -484,6 +484,17 @@ final class MoodleUtility {
     }
 
     /**
+     * Set visibility for a block instance on all its page types and positions in a given context.  E.g. if you hide a quiz block, you can use this to hide it on all quiz-* page types.
+     *
+     * @param int $blockinstanceid The block instance id, e.g. the value 60 from http://localhost:8000/mod/quiz/view.php?id=2&bui_editid=60.
+     * @param bool $visible True to make the blocks visible; False to make them hidden.
+     */
+    public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
+        global $DB;
+        $DB->set_field('block_positions', 'visible', (int)$newvisibility, array('blockinstanceid' => $blockinstanceid, 'contextid' => $contextid));
+    }
+
+    /**
      * Returns true if a plugin is installed and enabled.
      *
      * @param string $component Plugin full name (frankenstyle) with the type prefix, e.g. local_satraining, mod_quiz, block_html.  Assumed to be a valid string.

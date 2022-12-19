@@ -172,6 +172,38 @@ class block_quizonepagepaginate extends block_base {
     public function specialization() {
         // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
         $this->page->add_body_class('block_quizonepagepaginate');
+
+        // If user shows/hides block in one pagetype of the quiz, also show/hide it in all the other pagetypes.
+        $this->handleBlockVisibilityChange();
+    }
+
+    private function handleBlockVisibilityChange() {
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug = false;
+        $debug && error_log($fxn . '::Started');
+
+        if ($blockid = optional_param('bui_hideid', null, PARAM_INT)) {
+            $newvisibility = 0;
+        } else if ($blockid = optional_param('bui_showid', null, PARAM_INT)) {
+            $newvisibility = 1;
+        } else if ($blockid = optional_param('bui_editid', null, PARAM_INT)) {
+            $newvisibility = optional_param('bui_visible', null, PARAM_INT);
+        } else {
+            $debug && error_log($fxn . '::No bui_* param found');
+            return;
+        }
+        $debug && error_log($fxn . '::Got $blockid=' . $blockid . '; $newvisibility=' . $newvisibility);
+
+        if (!in_array($newvisibility, [0, 1])  || $blockid !== intval($this->instance->id)) {
+            $debug && error_log($fxn . '::Bad values found so skip out' . bqopp_u::var_dump($this->instance, true));
+            return;
+        }
+
+        $modulecontext = $this->context->get_parent_context();
+        $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
+
+        $contextid = $modulecontext->id;
+        bqopp_mu::blocks_set_visibility_all_for_context_pagetypes($blockid, $contextid, (bool)$newvisibility);
     }
 
     /**
