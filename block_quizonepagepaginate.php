@@ -198,7 +198,7 @@ class block_quizonepagepaginate extends block_base {
      */
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
