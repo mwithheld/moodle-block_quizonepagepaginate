@@ -235,12 +235,10 @@ class block_quizonepagepaginate {
         });
     }
 
-    scrollToQuestion(anchor = '') {
-        if (anchor.length < 1) {
-            document.querySelector('#responseform').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
+    scrollToQuestion() {
+        document.querySelector('#responseform').scrollIntoView({
+            behavior: 'smooth'
+        });
     }
 
     setDisplayVal(elt, displayVal) {
