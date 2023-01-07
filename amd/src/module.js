@@ -136,7 +136,8 @@ class block_quizonepagepaginate {
      * @returns {string} The URL anchor value (e.g. "blah" in url=https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#blah); else return empty string.
      */
     getAnchor(url = '') {
-        return (url.split('#').length > 1) ? url.split('#')[1] : null;
+        let anchor = url.split("#")[1];
+        return anchor ? anchor : "";
     }
 
     /**
