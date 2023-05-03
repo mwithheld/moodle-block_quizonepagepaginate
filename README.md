@@ -6,10 +6,12 @@ This is a Moodle block to deliver quiz questions questions one (or more) at a ti
 ## Getting started
 
 Install:
+
 - [Download the block code here](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/downloads/).
 - Follow the [Moodle plugin install instructions](https://docs.moodle.org/402/en/Installing_plugins#Installing_via_uploaded_ZIP_file). The install folder is /path/to/moodle/blocks/quizonepagepaginate/
 
 Add the block to a course quiz:
+
 - Navigate into a course and then into a quiz.
 - Turn "Edit mode" on, click "Add a block", scroll and click "One Page Paginate".
 ![(Screenshot: How to activate)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/raw/9933c4ba2d643f9785a0014d53f272ee1ccaf2b0/docs/block_quizonepagepaginate-activate.png)
