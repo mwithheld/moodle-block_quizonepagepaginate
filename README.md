@@ -9,11 +9,11 @@ This is a Moodle block to deliver quiz questions questions one (or more) at a ti
 - Add the block to a course quiz: 
 -- Navigate into a course and then into a quiz.
 -- Turn "Edit mode" on, click "Add a block", scroll and click "One Page Paginate".
-![block_onepagepaginate (Screenshot: How to activate)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/src/main/docs/block_quizonepagepaginate-activate.png)
+![(Screenshot: How to activate)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/raw/9933c4ba2d643f9785a0014d53f272ee1ccaf2b0/docs/block_quizonepagepaginate-activate.png)
 -- Once the block is enabled on a quiz, you will see Prev and Next buttons at the bottom, and by default only one quiz question shows at a time.
-![block_onepagepaginate (Screenshot: How it looks when activated)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/src/main/docs/block_quizonepagepaginate-activated.png)
+![(Screenshot: How it looks when activated)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/raw/9933c4ba2d643f9785a0014d53f272ee1ccaf2b0/docs/block_quizonepagepaginate-activated.png)
 - To configure the block instance: Navigate into a course quiz, turn "Edit mode" on, in the block click the gear menu > "Configure One Page Paginate block".
-![block_onepagepaginate (Screenshot: How to configure)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/src/main/docs/block_quizonepagepaginate-configure-1.png)
+![(Screenshot: How to configure)](https://bitbucket.org/mwebv/moodle-block_quizonepagepaginate/raw/9933c4ba2d643f9785a0014d53f272ee1ccaf2b0/docs/block_quizonepagepaginate-configure-1.png)
 ## Things to know
 - All the quiz questions are loaded on page load - they're just hidden from the user.
 - The "Quiz navigation" block will not reflect what is currently visible on the page.
