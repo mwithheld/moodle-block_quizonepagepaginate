@@ -3,6 +3,13 @@
 This is a Moodle block to deliver quiz questions questions one (or more) at a time on the same page without navigating to a new page for each question.
 
 
+## Requirements
+
+- Moodle 3.5 and above - see [What version of Moodle am I using?](https://docs.moodle.org/en/Moodle_version#What_version_of_Moodle_am_I_using)
+- You need administrator privileges in your Moodle instance to install this plugin. You need teacher privileges in your course quiz to enable it.
+- JavaScript in the student's browser must be enabled.
+
+
 ## Getting started
 
 Install:
@@ -45,17 +52,11 @@ This plugin does not store any data.
 We take privacy and security seriously. Any security issues can most responsibly be disclosed to admin@integrityadvocate.com
 
 
-## Requirements
-
-- Moodle 3.5 and above - see [What version of Moodle am I using?](https://docs.moodle.org/en/Moodle_version#What_version_of_Moodle_am_I_using)
-- You need administrator privileges in your Moodle instance to install this plugin. You need teacher privileges in your course quiz to enable it.
-- JavaScript in the student's browser must be enabled.
-
 ## Reporting problems
 Please give concrete info and background like:
 
 - What error do you see, or what don't you see that you expect?
-- How exactly can I reproduce the error?
+- How exactly can I reproduce the issue on my own Moodle?
 - What browser?
 - What version of Moodle are you running?
 - Does the "quizonepagepaginate" plugin show up on the plugins overview page (/admin/plugins.php)?
