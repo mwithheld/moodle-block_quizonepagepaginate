@@ -31,5 +31,5 @@ declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'block_quizonepagepaginate';
-$plugin->version   = 2022121804;
-$plugin->requires  = 2018051700; // Moodle 3.5.0.
+$plugin->version = 2023050300;
+$plugin->requires = 2018051700; // Moodle 3.5.0.
