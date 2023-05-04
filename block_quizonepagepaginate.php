@@ -174,10 +174,10 @@ class block_quizonepagepaginate extends block_base {
         $this->page->add_body_class('block_quizonepagepaginate');
 
         // If user shows/hides block in one pagetype of the quiz, also show/hide it in all the other pagetypes.
-        $this->handleBlockVisibilityChange();
+        $this->handle_block_visibility_change();
     }
 
-    private function handleBlockVisibilityChange() {
+    private function handle_block_visibility_change() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
         $debug && error_log($fxn . '::Started');
