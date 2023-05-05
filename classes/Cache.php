@@ -37,6 +37,9 @@ defined('MOODLE_INTERNAL') || die;
 use block_quizonepagepaginate\Cache as bqopp_cache;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
+/**
+ * For documentation, see the notes at the top of this file.
+ */
 final class Cache {
 
     public const APPLICATION = 'application';

@@ -40,6 +40,9 @@ use block_quizonepagepaginate\Cache as bqopp_cache;
 use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
+/**
+ * For documentation, see the notes at the top of this file.
+ */
 final class MoodleUtility {
 
     /**

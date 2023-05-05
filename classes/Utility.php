@@ -35,6 +35,9 @@ namespace block_quizonepagepaginate;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * For documentation, see the notes at the top of this file.
+ */
 final class Utility {
 
     /**
