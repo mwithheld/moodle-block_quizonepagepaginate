@@ -17,6 +17,7 @@
 /**
  * Utility functions not specific to this module that interact with Moodle core.
  *
+ * @package    block_quizonepagepaginate
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *

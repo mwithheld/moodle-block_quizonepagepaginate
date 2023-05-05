@@ -17,6 +17,7 @@
 /**
  * Cache manager.
  *
+ * @package    block_quizonepagepaginate
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *

@@ -18,6 +18,7 @@
  * Generic utility functions not specific to Moodle.
  * Nothing in this class should use Moodle logic or Moodle's MUC.
  *
+ * @package    block_quizonepagepaginate
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
