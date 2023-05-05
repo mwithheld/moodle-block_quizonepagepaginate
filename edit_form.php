@@ -35,6 +35,9 @@ use block_quizonepagepaginate\Utility as bqopp_u;
 
 require_once(__DIR__ . '/lib.php');
 
+/**
+ * For documentation, see the notes at the top of this file.
+ */
 class block_quizonepagepaginate_edit_form extends block_edit_form {
 
     /**
