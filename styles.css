@@ -1,13 +1,6 @@
 /* This file is automatically included by Moodle */
 
 
-/* This rule is only used to detect if this css is present */
-
-.block_quizonepagepaginate_customcss {
-    -block_quizonepagepaginate-cssispresent: 1;
-}
-
-
 /* Always hide this block if not in editing mode */
 
 .block-region .block_quizonepagepaginate {
