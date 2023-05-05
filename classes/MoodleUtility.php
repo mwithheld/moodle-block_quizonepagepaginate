@@ -338,6 +338,7 @@ final class MoodleUtility {
      * Get the default role with the passed in name.
      * Adapted from lib/accesslib.php::get_guest_role().
      *
+     * @param string $shortname The role short name.
      * @return \stdClass A Moodle role record.
      */
     public static function get_default_role(string $shortname): \stdClass {
@@ -491,6 +492,7 @@ final class MoodleUtility {
      * Set visibility for a block instance on all its page types and positions in a given context.  E.g. if you hide a quiz block, you can use this to hide it on all quiz-* page types.
      *
      * @param int $blockinstanceid The block instance id, e.g. the value 60 from http://localhost:8000/mod/quiz/view.php?id=2&bui_editid=60.
+     * @param int $contextid The context id to look in.
      * @param bool $visible True to make the blocks visible; False to make them hidden.
      */
     public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
@@ -588,14 +590,14 @@ final class MoodleUtility {
      * The returned objects includle the columns cw.section, cm.visible,
      * cm.groupmode, and cm.groupingid, and are indexed by cm.id.
      *
-     * Simply calls {@link all_instances_in_courses()} with a single provided course
+     * Simply calls all_instances_in_courses() with a single provided course
      *
      * @param string $modulename The name of the module to get instances for.  This the shortname (e.g. zoom) not the frankenstyle name (e.g. mod_zoom).
      * @param object $course The course obect.
-     * @return array of module instance objects, including some extra fields from the course_modules
-     *          and course_sections tables, or an empty array if an error occurred.
      * @param int $userid Return only those available to this user.
      * @param bool $includeinvisible True to include visible only.
+     * @return array of module instance objects, including some extra fields from the course_modules
+     *          and course_sections tables, or an empty array if an error occurred.
      */
     public static function get_all_instances_in_course(string $modulename, \stdClass $course, int $userid = null, bool $includeinvisible = false) {
         $debug = false;
