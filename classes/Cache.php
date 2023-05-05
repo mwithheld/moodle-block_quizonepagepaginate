@@ -42,10 +42,19 @@ use block_quizonepagepaginate\Utility as bqopp_u;
  */
 final class Cache {
 
+    /** @var string Cache per application. */
     public const APPLICATION = 'application';
+
+    /** @var string Cache per request. */
     public const PERREQUEST = 'perrequest';
+
+    /** @var string Cache per session. */
     public const PERSESSION = 'persession';
+
+    /** @var string Cache per session with short expiry. */
     public const PERSESSIONSHORTEXPIRY = 'persessionshortexpiry';
+
+    /** @var string Cache definitions */
     public const DEFINITIONS = [
         bqopp_cache::APPLICATION => [
             'mode' => \cache_store::MODE_APPLICATION,
