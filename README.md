@@ -47,17 +47,22 @@ To configure the block instance: Navigate into a course quiz, turn "Edit mode" o
 
 ## Privacy
 
-This plugin does not store any data.
+This plugin does not store any data, does not send any data to any API, and does not require any subscription.
 
 We take privacy and security seriously. Any security issues can most responsibly be disclosed to admin@integrityadvocate.com
 
 
 ## Reporting problems
-Please give concrete info and background like:
+Before you report an issue, make sure you have updated the plugin to the latest available version, and then check the issue persists.
+
+When reporting an issue, please give concrete info and background like:
 
 - What error do you see, or what don't you see that you expect?
 - How exactly can I reproduce the issue on my own Moodle?
-- What browser?
+- What browser and browser version?
 - What version of Moodle are you running?
 - Does the "quizonepagepaginate" plugin show up on the plugins overview page (/admin/plugins.php)?
 - Anything useful in the Apache logs?
+- Can you create a screenshot or a video showing the issue?
+
+Issues can be reported at https://github.com/mwithheld/moodle-block_quizonepagepaginate/issues
