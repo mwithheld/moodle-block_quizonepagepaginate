@@ -28,7 +28,6 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
@@ -51,7 +50,7 @@ final class Utility {
      */
     public static function is_empty($obj): bool {
         switch (true) {
-            case !\is_object($obj):
+            case!\is_object($obj):
                 return empty($obj);
             case is_string($obj):
                 return strlen($obj) < 1;
@@ -139,7 +138,6 @@ final class Utility {
         }
         return ($a->start > $b->start) ? -1 : 1;
     }
-
 
     /**
      * Just wraps print_r(), but defaults to returning as a string.  If $expression is an object that has implemented __toString() then this is used.

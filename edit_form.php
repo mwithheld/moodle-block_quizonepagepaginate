@@ -27,7 +27,6 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 

@@ -27,7 +27,6 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
@@ -37,6 +36,7 @@ use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
 class block_quizonepagepaginate extends block_base {
+
     /**
      * Sets the block title.
      */
@@ -52,18 +52,18 @@ class block_quizonepagepaginate extends block_base {
     public function applicable_formats(): array {
         return [
             'mod-quiz' => true,
-            // Unused: 'all' => false,
-            // Unused: 'course-view-social' => false,
-            // Unused: 'course-view-topics' => false,
-            // Unused: 'course-view-weeks' => false,
-            // Unused: 'course-view' => false,
-            // Unused: 'course' => false,
-            // Unused: 'mod' => false,
-            // Unused: 'my' => false,
-            // Unused: 'site-index' => false,
-            // Unused: 'site' => false,
-            // Unused: 'tag' => false,
-            // Unused: 'user-profile' => false,
+                // Unused: 'all' => false,
+                // Unused: 'course-view-social' => false,
+                // Unused: 'course-view-topics' => false,
+                // Unused: 'course-view-weeks' => false,
+                // Unused: 'course-view' => false,
+                // Unused: 'course' => false,
+                // Unused: 'mod' => false,
+                // Unused: 'my' => false,
+                // Unused: 'site-index' => false,
+                // Unused: 'site' => false,
+                // Unused: 'tag' => false,
+                // Unused: 'user-profile' => false,
         ];
     }
 
@@ -195,7 +195,7 @@ class block_quizonepagepaginate extends block_base {
         }
         $debug && error_log($fxn . '::Got $blockid=' . $blockid . '; $newvisibility=' . $newvisibility);
 
-        if (!in_array($newvisibility, [0, 1])  || $blockid !== intval($this->instance->id)) {
+        if (!in_array($newvisibility, [0, 1]) || $blockid !== intval($this->instance->id)) {
             $debug && error_log($fxn . '::Bad values found so skip out' . bqopp_u::var_dump($this->instance, true));
             return;
         }
@@ -204,7 +204,7 @@ class block_quizonepagepaginate extends block_base {
         $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
 
         $contextid = $modulecontext->id;
-        bqopp_mu::blocks_set_visibility_all_for_context_pagetypes($blockid, $contextid, (bool)$newvisibility);
+        bqopp_mu::blocks_set_visibility_all_for_context_pagetypes($blockid, $contextid, (bool) $newvisibility);
     }
 
     /**

@@ -27,7 +27,6 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate;
@@ -497,7 +496,7 @@ final class MoodleUtility {
      */
     public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
         global $DB;
-        $DB->set_field('block_positions', 'visible', (int)$newvisibility, array('blockinstanceid' => $blockinstanceid, 'contextid' => $contextid));
+        $DB->set_field('block_positions', 'visible', (int) $newvisibility, array('blockinstanceid' => $blockinstanceid, 'contextid' => $contextid));
     }
 
     /**

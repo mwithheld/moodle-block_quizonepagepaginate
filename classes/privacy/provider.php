@@ -26,7 +26,6 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
 declare(strict_types=1);
 
 namespace block_quizonepagepaginate\privacy;
@@ -36,8 +35,8 @@ defined('MOODLE_INTERNAL') || die;
 use \core_privacy\local\metadata\collection;
 
 class provider implements
-    // This plugin stores no privacy-related data.
-    \core_privacy\local\metadata\null_provider {
+// This plugin stores no privacy-related data.
+\core_privacy\local\metadata\null_provider {
 
     /**
      * Get the language string identifier with the component's language

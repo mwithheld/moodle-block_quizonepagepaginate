@@ -28,12 +28,10 @@
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
  * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
-
- declare(strict_types=1);
- defined('MOODLE_INTERNAL') || die;
+declare(strict_types=1);
+defined('MOODLE_INTERNAL') || die;
 
 $capabilities = array(
-
     'block/quizonepagepaginate:addinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
@@ -41,10 +39,8 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
-
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
-
     'block/quizonepagepaginate:view' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_BLOCK,

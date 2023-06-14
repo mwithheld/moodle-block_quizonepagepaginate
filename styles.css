@@ -14,7 +14,7 @@ body.editing .block-region .block_quizonepagepaginate {
 
 /*
 Hide the quiz config for Layout>New Page:# questions per page, since we are forcing it to all.
- */
+*/
 
 #page-mod-quiz-mod.block_quizonepagepaginate #fgroup_id_questionsperpagegrp {
     display: none;
