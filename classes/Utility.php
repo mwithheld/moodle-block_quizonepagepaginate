@@ -15,18 +15,11 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Generic utility functions not specific to Moodle.
- * Nothing in this class should use Moodle logic or Moodle's MUC.
+ * Generic utility functions not specific to Moodle. Nothing in this class should use Moodle logic or Moodle's MUC.
  *
  * @package    block_quizonepagepaginate
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
- * @tags
- * @phpcs:disable moodle.Files.LineLength.MaxExceeded
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 declare(strict_types=1);
 
@@ -87,67 +80,20 @@ final class Utility {
     }
 
     /**
-     * Same as strpos but with an array of needles
-     *
-     * @link https://stackoverflow.com/a/9220624
-     * @param string $haystack The string to search in
-     * @param array<string> $needles Regexes to search for
-     * @param int $offset Optional string offset to start from
-     * @return bool true if found; else false
-     */
-    public static function strposabool(string $haystack, array $needles, int $offset = 0): bool {
-        if (!\is_array($needles)) {
-            $needles = [$needles];
-        }
-        foreach ($needles as $query) {
-            if (\mb_strpos($haystack, $query, $offset) !== false) {
-                // Stop on first true result.
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Sort the object by the created property in descending order
-     * E.g. an IA Flag object.
-     * Type hints commented out for PHP7.1 compat.
-     *
-     * @param object $a The first object to sort.
-     * @param object $b The second object to sort.
-     * @return int 0 if the same; -1 if $a->created exceeds $b->created; else 1.
-     */
-    public static function sort_by_created_desc(/* object */$a, /* object */ $b): int {
-        if ($a->created == $b->created) {
-            return 0;
-        }
-        return ($a->created > $b->created) ? -1 : 1;
-    }
-
-    /**
-     * Sort the object by the start property in descending order.
-     * Type hints commented out for PHP7.1 compat.
-     *
-     * @param object $a The first object to sort.
-     * @param object $b The second object to sort.
-     * @return int 0 if the same; -1 if $a->start exceeds $b->start; else 1.
-     */
-    public static function sort_by_start_desc(/* object */$a, /* object */ $b): int {
-        if ($a->start == $b->start) {
-            return 0;
-        }
-        return ($a->start > $b->start) ? -1 : 1;
-    }
-
-    /**
      * Just wraps print_r(), but defaults to returning as a string.  If $expression is an object that has implemented __toString() then this is used.
      *
      * @param mixed $expression <p>The expression to be printed.</p>
-     * @param bool $return <p>If you would like to capture the output of <b>print_r()</b>, use the <code>return</code> parameter. When this parameter is set to <b><code>TRUE</code></b>, <b>print_r()</b> will return the information rather than print it.</p>
-     * @return mixed <p>If given a <code>string</code>, <code>integer</code> or <code>float</code>, the value itself will be printed. If given an <code>array</code>, values will be presented in a format that shows keys and elements. Similar notation is used for <code>object</code>s.</p><p>When the <code>return</code> parameter is <b><code>TRUE</code></b>, this function will return a <code>string</code>. Otherwise, the return value is <b><code>TRUE</code></b>.</p>
+     * @param bool $return <p>If you would like to capture the output of <b>print_r()</b>, use the <code>return</code> parameter.
+     * When this parameter is set to <b><code>TRUE</code></b>, <b>print_r()</b> will return the information rather than print it.</p>
+     * @return mixed <p>If given a <code>string</code>, <code>integer</code> or <code>float</code>, the value itself will be printed.
+     * If given an <code>array</code>, values will be presented in a format that shows keys and elements.
+     * Similar notation is used for <code>object</code>s.</p><p>
+     * When the <code>return</code> parameter is <b><code>TRUE</code></b>, this function will return a <code>string</code>.
+     * Otherwise, the return value is <b><code>TRUE</code></b>.</p>
      */
     public static function var_dump($expression, bool $return = true) {
         if (self::is_empty($expression)) {
+            // phpcs:ignore
             return \print_r('', $return);
         }
 
@@ -155,7 +101,8 @@ final class Utility {
         \raise_memory_limit(\MEMORY_HUGE);
 
         if (\is_object($expression)) {
-            if (\property_exists($expression, 'page') && (\gettype($expression->page) == 'object') && \class_exists('moodle_page', false) && $expression->page instanceof \moodle_page) {
+            if (\property_exists($expression, 'page') && (\gettype($expression->page) == 'object')
+                    && \class_exists('moodle_page', false) && $expression->page instanceof \moodle_page) {
                 $expression->page = null;
             }
             if (\method_exists(\get_class($expression), '__toString')) {
@@ -163,7 +110,8 @@ final class Utility {
             }
         }
 
-        if (\is_array($expression) && isset($expression['page']) && (\gettype($expression['page']) == 'object') && \class_exists('moodle_page', false) && $expression['page'] instanceof \moodle_page) {
+        if (\is_array($expression) && isset($expression['page']) && (\gettype($expression['page']) == 'object')
+                && \class_exists('moodle_page', false) && $expression['page'] instanceof \moodle_page) {
             unset($expression['page']);
         }
 
@@ -304,6 +252,9 @@ final class Utility {
      * the original value is returned.
      *
      * @link https://stackoverflow.com/a/45241792 .
+     * @param mixed $value The value to evaluate for JSON-ness.
+     * @param bool $asobject True to return the result as an object.
+     * @return mixed The decoded result.
      */
     public static function get_data_from_maybe_json($value, $asobject = false) {
         if (is_numeric($value)) {

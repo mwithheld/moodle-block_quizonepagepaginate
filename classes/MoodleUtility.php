@@ -20,12 +20,6 @@
  * @package    block_quizonepagepaginate
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
- * @tags
- * @phpcs:disable moodle.Files.LineLength.MaxExceeded
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 declare(strict_types=1);
 
@@ -74,7 +68,7 @@ final class MoodleUtility {
     public static function get_modulecontext_as_obj($modulecontextorid): ?\context_module {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with type(\$modulecontextorid)=' . \gettype($modulecontextorid));
+        $debug && debugging($fxn . '::Started with type(\$modulecontextorid)=' . \gettype($modulecontextorid));
 
         $returnthis = null;
 
@@ -84,7 +78,7 @@ final class MoodleUtility {
                 $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, \json_encode($modulecontextorid, \JSON_PARTIAL_OUTPUT_ON_ERROR)]));
                 $cachedvalue = bqopp_cache::get($cachename, $cachekey);
                 if (!is_null($cachedvalue)) {
-                    $debug && error_log($fxn . '::Found a cached value, so return that');
+                    $debug && debugging($fxn . '::Found a cached value, so return that');
                     return $cachedvalue;
                 }
 
@@ -124,7 +118,7 @@ final class MoodleUtility {
     public static function get_coursecontext_as_obj($coursecontextorid): ?\context_course {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with type(\$coursecontextorid)=' . \gettype($coursecontextorid));
+        $debug && debugging($fxn . '::Started with type(\$coursecontextorid)=' . \gettype($coursecontextorid));
 
         $returnthis = null;
 
@@ -134,7 +128,7 @@ final class MoodleUtility {
                 $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, \json_encode($coursecontextorid, \JSON_PARTIAL_OUTPUT_ON_ERROR)]));
                 $cachedvalue = bqopp_cache::get($cachename, $cachekey);
                 if (!is_null($cachedvalue)) {
-                    $debug && error_log($fxn . '::Found a cached value, so return that');
+                    $debug && debugging($fxn . '::Found a cached value, so return that');
                     return $cachedvalue;
                 }
 
@@ -174,13 +168,13 @@ final class MoodleUtility {
     public static function get_course_as_obj($course): \stdClass {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with type(\$course)=' . \gettype($course));
+        $debug && debugging($fxn . '::Started with type(\$course)=' . \gettype($course));
 
         $cachename = bqopp_cache::PERSESSION;
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, \json_encode($course, \JSON_PARTIAL_OUTPUT_ON_ERROR)]));
         $cachedvalue = bqopp_cache::get($cachename, $cachekey);
         if (!is_null($cachedvalue)) {
-            $debug && error_log($fxn . '::Found a cached value, so return that');
+            $debug && debugging($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
@@ -236,13 +230,13 @@ final class MoodleUtility {
     public static function get_user_as_obj($user): ?\stdClass {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with type(\$user)=' . \gettype($user));
+        $debug && debugging($fxn . '::Started with type(\$user)=' . \gettype($user));
 
         $cachename = bqopp_cache::PERSESSION;
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, \json_encode($user, \JSON_PARTIAL_OUTPUT_ON_ERROR)]));
         $cachedvalue = bqopp_cache::get($cachename, $cachekey);
         if (false && !is_null($cachedvalue)) {
-            $debug && error_log($fxn . '::Found a cached value, so return that');
+            $debug && debugging($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
@@ -251,12 +245,12 @@ final class MoodleUtility {
         switch (true) {
             case \is_numeric($user) && intval($user) === clean_param($user, PARAM_INT):
                 $userarr = \user_get_users_by_id([(int) $user]);
-                $debug && error_log($fxn . '::Got $userarr=' . print_r($userarr, true));
+                $debug && debugging($fxn . '::Got $userarr=' . bqopp_u::var_dump($userarr, true));
                 if (empty($userarr)) {
                     return $returnthis;
                 }
                 $user = \array_pop($userarr);
-                $debug && error_log($fxn . '::Got $user=' . print_r($user, true));
+                $debug && debugging($fxn . '::Got $user=' . bqopp_u::var_dump($user, true));
 
                 if (isset($user->deleted) && $user->deleted) {
                     return $returnthis;
@@ -302,16 +296,16 @@ final class MoodleUtility {
     public static function get_course_metadata(int $courseid, string $shortnametoreturn = ''): array {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . "::Started with \$courseid={$courseid}; \$shortnameToReturn={$shortnametoreturn}");
+        $debug && debugging($fxn . "::Started with \$courseid={$courseid}; \$shortnameToReturn={$shortnametoreturn}");
 
         $handler = \core_customfield\handler::get_handler('core_course', 'course');
         // This is equivalent to the line above: $handler = \core_course\customfield\course_handler::create();.
         $datas = $handler->get_instance_data($courseid);
-        $debug && error_log($fxn . "::Got datas=" . print_r($datas, true));
+        $debug && debugging($fxn . "::Got datas=" . bqopp_u::var_dump($datas, true));
 
         $returnthis = [];
         foreach ($datas as $data) {
-            $debug && error_log($fxn . "::Looking at data=" . print_r($data, true));
+            $debug && debugging($fxn . "::Looking at data=" . bqopp_u::var_dump($data, true));
             $shortname = $data->get_field()->get('shortname');
             if ($shortnametoreturn && $shortname != $shortnametoreturn) {
                 continue;
@@ -329,7 +323,7 @@ final class MoodleUtility {
             }
         }
 
-        $debug && error_log($fxn . "::About to return \$returnThis=" . print_r($returnthis, true));
+        $debug && debugging($fxn . "::About to return \$returnThis=" . bqopp_u::var_dump($returnthis, true));
         return $returnthis;
     }
 
@@ -343,7 +337,7 @@ final class MoodleUtility {
     public static function get_default_role(string $shortname): \stdClass {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . "::Started with \$shortname={$shortname}");
+        $debug && debugging($fxn . "::Started with \$shortname={$shortname}");
 
         global $CFG, $DB;
 
@@ -351,7 +345,7 @@ final class MoodleUtility {
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $shortname]));
         $cachedvalue = bqopp_cache::get($cachename, $cachekey);
         if (!is_null($cachedvalue)) {
-            $debug && error_log($fxn . '::Found a cached value, so return that');
+            $debug && debugging($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
@@ -359,7 +353,7 @@ final class MoodleUtility {
 
         // Guest role is handled by lib/accesslib.php.
         if ($shortname === 'guest') {
-            $debug && error_log($fxn . "::Use Moodle default handling for guest");
+            $debug && debugging($fxn . "::Use Moodle default handling for guest");
             // This can return false or stdClass.
             $role = get_guest_role();
             if (!empty($role)) {
@@ -368,26 +362,26 @@ final class MoodleUtility {
         } else {
             // Caution: If we use shortnameroleid Moodle always returns the guest role id!  Thanks Moodle!
             $cfgvarname = "roleid_{$shortname}";
-            $debug && error_log($fxn . "::Built \$cfgvarname={$cfgvarname}");
+            $debug && debugging($fxn . "::Built \$cfgvarname={$cfgvarname}");
 
-            $debug && error_log($fxn . '::About to check ' . $CFG->$cfgvarname . '=' . get_config('core', $cfgvarname));
+            $debug && debugging($fxn . '::About to check ' . $CFG->$cfgvarname . '=' . get_config('core', $cfgvarname));
             if (!isset($CFG->$cfgvarname)) {
-                $debug && error_log($fxn . '::Found no existing $CFG var');
+                $debug && debugging($fxn . '::Found no existing $CFG var');
                 if ($roles = $DB->get_records('role', ['archetype' => $shortname])) {
                     $role = array_shift($roles);   // Pick the first one.
-                    $debug && error_log($fxn . "::Got role=" . print_r($role, true));
+                    $debug && debugging($fxn . "::Got role=" . bqopp_u::var_dump($role, true));
                     set_config($cfgvarname, $role->id);
                     $returnthis = $role;
                 } else {
-                    $debug && error_log($fxn . "::Can not find any {$shortname} role!");
+                    $debug && debugging($fxn . "::Can not find any {$shortname} role!");
                 }
             } else {
-                $debug && error_log($fxn . '::Found existing $CFG var with val=' . $CFG->$cfgvarname);
+                $debug && debugging($fxn . '::Found existing $CFG var with val=' . $CFG->$cfgvarname);
                 if ($role = $DB->get_record('role', ['id' => $CFG->$cfgvarname])) {
-                    $debug && error_log($fxn . "::Got role=" . print_r($role, true));
+                    $debug && debugging($fxn . "::Got role=" . bqopp_u::var_dump($role, true));
                     $returnthis = $role;
                 } else {
-                    $debug && error_log($fxn . "::Somebody is messing with the roles, remove incorrect setting and try to find a new one.");
+                    $debug && debugging($fxn . "::Somebody is messing with the roles, remove incorrect setting and try to find a new one.");
                     set_config($cfgvarname, '');
                     $returnthis = bqopp_mu::get_default_role($shortname);
                 }
@@ -407,7 +401,7 @@ final class MoodleUtility {
     public static function user_has_nonbasic_role_somewhere(\stdClass $user): bool {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . "::Started with user->id={$user->id}");
+        $debug && debugging($fxn . "::Started with user->id={$user->id}");
 
         if (\isguestuser()) {
             return false;
@@ -417,7 +411,7 @@ final class MoodleUtility {
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $user->id]));
         $cachedvalue = bqopp_cache::get($cachename, $cachekey);
         if (!is_null($cachedvalue)) {
-            $debug && error_log($fxn . '::Found a cached value, so return that');
+            $debug && debugging($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
@@ -425,42 +419,42 @@ final class MoodleUtility {
 
         switch (true) {
             case \is_siteadmin():
-                $debug && error_log($fxn . '::This user is siteadmin');
+                $debug && debugging($fxn . '::This user is siteadmin');
                 $returnthis = true;
                 break;
             default:
                 $accessdata = get_user_accessdata($user->id);
-                $debug && error_log($fxn . '::Got $accessdata=' . print_r($accessdata, true));
+                $debug && debugging($fxn . '::Got $accessdata=' . bqopp_u::var_dump($accessdata, true));
 
                 foreach ($accessdata['ra'] as $contextpath => &$roles) {
-                    $debug && error_log($fxn . '::Looking at $contextpath=' . $contextpath . ' with roles=' . print_r($roles, true));
+                    $debug && debugging($fxn . '::Looking at $contextpath=' . $contextpath . ' with roles=' . bqopp_u::var_dump($roles, true));
 
                     foreach (['guest', 'user', 'frontpage'] as $discardthisrole) {
-                        $debug && error_log($fxn . '::Looking for role=' . $discardthisrole);
+                        $debug && debugging($fxn . '::Looking for role=' . $discardthisrole);
                         $userrole = bqopp_mu::get_default_role($discardthisrole);
-                        $debug && error_log($fxn . '::We should discard $userrole=' . print_r($userrole, true));
+                        $debug && debugging($fxn . '::We should discard $userrole=' . bqopp_u::var_dump($userrole, true));
 
                         if (array_key_exists($userrole->id, $roles)) {
-                            $debug && error_log($fxn . '::Removed role=' . $discardthisrole);
+                            $debug && debugging($fxn . '::Removed role=' . $discardthisrole);
                             unset($roles[$userrole->id]);
                         }
                     }
 
-                    $debug && error_log($fxn . '::After cleaning, roles=' . print_r($roles, true));
+                    $debug && debugging($fxn . '::After cleaning, roles=' . bqopp_u::var_dump($roles, true));
                     if (empty($roles)) {
                         unset($accessdata['ra'][$contextpath]);
                     }
                 }
 
-                $debug && error_log($fxn . '::After cleaning, $accessdata[\'ra\']=' . print_r($accessdata['ra'], true));
+                $debug && debugging($fxn . '::After cleaning, $accessdata[\'ra\']=' . bqopp_u::var_dump($accessdata['ra'], true));
                 $returnthis = !bqopp_u::is_empty($accessdata['ra']);
-                $debug && error_log($fxn . '::Set $returnthis=' . ($returnthis ? 1 : 0));
+                $debug && debugging($fxn . '::Set $returnthis=' . ($returnthis ? 1 : 0));
                 break;
         }
 
         // Do not cache if found no non-basic roles.
         $returnthis && bqopp_cache::set($cachename, $cachekey, $returnthis);
-        $debug && error_log($fxn . '::About to return $returnthis=' . ($returnthis ? 1 : 0));
+        $debug && debugging($fxn . '::About to return $returnthis=' . ($returnthis ? 1 : 0));
         return $returnthis;
     }
 
@@ -475,10 +469,10 @@ final class MoodleUtility {
         global $DB;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . "::Started with \$parentcontextid={$parentcontextid}; \$blockinstanceid={$blockinstanceid}");
+        $debug && debugging($fxn . "::Started with \$parentcontextid={$parentcontextid}; \$blockinstanceid={$blockinstanceid}");
 
         $record = $DB->get_record('block_positions', ['blockinstanceid' => $blockinstanceid, 'contextid' => $parentcontextid], 'id,visible', \IGNORE_MULTIPLE);
-        $debug && error_log($fxn . '::Got $bp_record=' . (bqopp_u::is_empty($record) ? '' : bqopp_u::var_dump($record, true)));
+        $debug && debugging($fxn . '::Got $bp_record=' . (bqopp_u::is_empty($record) ? '' : bqopp_u::var_dump($record, true)));
         if (bqopp_u::is_empty($record)) {
             // There is no block_positions record, and the default is visible.
             return true;
@@ -488,11 +482,13 @@ final class MoodleUtility {
     }
 
     /**
-     * Set visibility for a block instance on all its page types and positions in a given context.  E.g. if you hide a quiz block, you can use this to hide it on all quiz-* page types.
+     * Set visibility for a block instance on all its page types and positions in a given context.
+     * E.g. if you hide a quiz block, you can use this to hide it on all quiz-* page types.
      *
      * @param int $blockinstanceid The block instance id, e.g. the value 60 from http://localhost:8000/mod/quiz/view.php?id=2&bui_editid=60.
      * @param int $contextid The context id to look in.
-     * @param bool $visible True to make the blocks visible; False to make them hidden.
+     * @param bool $newvisibility True to make the blocks visible; False to make them hidden.
+     * @return void.
      */
     public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
         global $DB;
@@ -508,7 +504,7 @@ final class MoodleUtility {
     public static function is_plugin_installed_and_enabled(string $component): bool {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with $component=' . $component);
+        $debug && debugging($fxn . '::Started with $component=' . $component);
 
         // Sanity check.
         if (!strpos($component, '_')) {
@@ -519,17 +515,17 @@ final class MoodleUtility {
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $component]));
         $cachedvalue = bqopp_cache::get($cachename, $cachekey);
         if (!is_null($cachedvalue)) {
-            $debug && error_log($fxn . '::Found a cached value, so return that');
+            $debug && debugging($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
         $pluginmanager = \core_plugin_manager::instance();
         $isinstalled = !empty($pluginmanager->get_plugin_info($component));
-        $debug && error_log($fxn . '::Got $isinstalled=' . print_r($isinstalled, true));
+        $debug && debugging($fxn . '::Got $isinstalled=' . bqopp_u::var_dump($isinstalled, true));
 
         list($type, $name) = \core_component::normalize_component($component);
         $enabledplugins = $pluginmanager->get_enabled_plugins($type);
-        $debug && error_log($fxn . '::For $type=' . $type . ' got $enabledplugins=' . print_r($enabledplugins, true));
+        $debug && debugging($fxn . '::For $type=' . $type . ' got $enabledplugins=' . bqopp_u::var_dump($enabledplugins, true));
         $isenabled = array_key_exists($name, $enabledplugins);
 
         $returnthis = $isinstalled && $isenabled;
@@ -555,20 +551,20 @@ final class MoodleUtility {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $user = bqopp_mu::get_user_as_obj($userobjectorid);
-        $debug && error_log($fxn . '::Started with userid=' . $user->id);
+        $debug && debugging($fxn . '::Started with userid=' . $user->id);
 
         // Cache so multiple calls don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, bqopp_cache::PERSESSION);
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $user->id, intval($override)]));
         if (FeatureControl::CACHE && ($cachedvalue = $cache->get($cachekey))) {
             if ($cachedvalue !== false) {
-                $debug && error_log($fxn . '::Found a cached value, so return that');
+                $debug && debugging($fxn . '::Found a cached value, so return that');
                 return $cachedvalue;
             }
         }
 
         $returnthis = \fullname($user, $override);
-        $debug && error_log($fxn . '::Got use fullname=' . $returnthis);
+        $debug && debugging($fxn . '::Got use fullname=' . $returnthis);
 
         if (FeatureControl::CACHE && !$cache->set($cachekey, $returnthis)) {
             throw new \Exception('Failed to set value in the cache');
@@ -592,7 +588,7 @@ final class MoodleUtility {
      * Simply calls all_instances_in_courses() with a single provided course
      *
      * @param string $modulename The name of the module to get instances for.  This the shortname (e.g. zoom) not the frankenstyle name (e.g. mod_zoom).
-     * @param object $course The course obect.
+     * @param \stdClass $course The course obect.
      * @param int $userid Return only those available to this user.
      * @param bool $includeinvisible True to include visible only.
      * @return array of module instance objects, including some extra fields from the course_modules
@@ -601,14 +597,15 @@ final class MoodleUtility {
     public static function get_all_instances_in_course(string $modulename, \stdClass $course, int $userid = null, bool $includeinvisible = false) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with $modulename=' . $modulename . '; $courseid=' . $course->id . '; $userid=' . $userid . '; $includeinvisible=' . $includeinvisible);
+        $debug && debugging($fxn . '::Started with $modulename=' . $modulename . '; $courseid=' . $course->id .
+                        '; $userid=' . $userid . '; $includeinvisible=' . $includeinvisible);
 
         // Cache so multiple calls don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, bqopp_cache::PERREQUEST);
         $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $modulename, $course->id, serialize($userid), $includeinvisible]));
         if (FeatureControl::CACHE && ($cachedvalue = $cache->get($cachekey))) {
             if ($cachedvalue !== false) {
-                $debug && error_log($fxn . '::Found a cached value, so return that');
+                $debug && debugging($fxn . '::Found a cached value, so return that');
                 return $cachedvalue;
             }
         }

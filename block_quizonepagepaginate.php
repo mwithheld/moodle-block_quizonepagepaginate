@@ -20,12 +20,6 @@
  * @package    block_quizonepagepaginate
  * @copyright IntegrityAdvocate.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
- * @tags
- * @phpcs:disable moodle.Files.LineLength.MaxExceeded
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
@@ -35,6 +29,9 @@ require_once(__DIR__ . '/lib.php');
 use block_quizonepagepaginate\MoodleUtility as bqopp_mu;
 use block_quizonepagepaginate\Utility as bqopp_u;
 
+/**
+ * The main class for this block.
+ */
 class block_quizonepagepaginate extends block_base {
 
     /**
@@ -93,10 +90,10 @@ class block_quizonepagepaginate extends block_base {
     public function instance_create() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
+        $debug && debugging($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If this is a quiz, auto-configure the quiz and this block.
-        $debug && error_log($fxn . "::Looking at pagetype={$this->page->pagetype}");
+        $debug && debugging($fxn . "::Looking at pagetype={$this->page->pagetype}");
         if (str_starts_with($this->page->pagetype, 'mod-quiz-')) {
             $this->autoupdate_quiz_config();
             $this->autoupdate_block_config();
@@ -113,12 +110,12 @@ class block_quizonepagepaginate extends block_base {
     private function autoupdate_block_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started');
+        $debug && debugging($fxn . '::Started');
 
         // Show the block on all quiz pages.
         global $DB;
         $DB->set_field('block_instances', 'pagetypepattern', 'mod-quiz-*', ['id' => $this->instance->id]);
-        $debug && error_log($fxn . '::Set DB [pagetypepattern] = mod-quiz-*');
+        $debug && debugging($fxn . '::Set DB [pagetypepattern] = mod-quiz-*');
 
         return true;
     }
@@ -131,20 +128,20 @@ class block_quizonepagepaginate extends block_base {
     private function autoupdate_quiz_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started');
+        $debug && debugging($fxn . '::Started');
 
         global $COURSE, $DB;
 
         // Find the quiz attached to this block.
         $modulecontext = $this->context->get_parent_context();
-        $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
+        $debug && debugging($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
         $modinfo = \get_fast_modinfo($COURSE, -1);
         $cm = $modinfo->get_cm($modulecontext->instanceid);
-        $debug && error_log($fxn . '::Got $cm->instance=' . bqopp_u::var_dump($cm->instance, true));
+        $debug && debugging($fxn . '::Got $cm->instance=' . bqopp_u::var_dump($cm->instance, true));
 
         // Get the quiz DB record.
         $record = $DB->get_record('quiz', ['id' => (int) ($cm->instance)], '*', \MUST_EXIST);
-        $debug && error_log($fxn . '::Got record=' . bqopp_u::var_dump($record, true));
+        $debug && debugging($fxn . '::Got record=' . bqopp_u::var_dump($record, true));
 
         // Update the quiz info.
         $changedquizconfig = true;
@@ -178,10 +175,15 @@ class block_quizonepagepaginate extends block_base {
         $this->handle_block_visibility_change();
     }
 
+    /**
+     * When this block visibility changes, what other things should be done?
+     *
+     * @return void.
+     */
     private function handle_block_visibility_change() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started');
+        $debug && debugging($fxn . '::Started');
 
         if ($blockid = optional_param('bui_hideid', null, PARAM_INT)) {
             $newvisibility = 0;
@@ -190,18 +192,18 @@ class block_quizonepagepaginate extends block_base {
         } else if ($blockid = optional_param('bui_editid', null, PARAM_INT)) {
             $newvisibility = optional_param('bui_visible', null, PARAM_INT);
         } else {
-            $debug && error_log($fxn . '::No bui_* param found');
+            $debug && debugging($fxn . '::No bui_* param found');
             return;
         }
-        $debug && error_log($fxn . '::Got $blockid=' . $blockid . '; $newvisibility=' . $newvisibility);
+        $debug && debugging($fxn . '::Got $blockid=' . $blockid . '; $newvisibility=' . $newvisibility);
 
         if (!in_array($newvisibility, [0, 1]) || $blockid !== intval($this->instance->id)) {
-            $debug && error_log($fxn . '::Bad values found so skip out' . bqopp_u::var_dump($this->instance, true));
+            $debug && debugging($fxn . '::Bad values found so skip out' . bqopp_u::var_dump($this->instance, true));
             return;
         }
 
         $modulecontext = $this->context->get_parent_context();
-        $debug && error_log($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
+        $debug && debugging($fxn . '::Got $modulecontext=' . bqopp_u::var_dump($modulecontext, true));
 
         $contextid = $modulecontext->id;
         bqopp_mu::blocks_set_visibility_all_for_context_pagetypes($blockid, $contextid, (bool) $newvisibility);
@@ -232,7 +234,7 @@ class block_quizonepagepaginate extends block_base {
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
+        $debug && debugging($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
         // This is just in case bc Moodle should not allow us to get here.
@@ -256,7 +258,7 @@ class block_quizonepagepaginate extends block_base {
         } else {
             $questionsperpage = 1;
         }
-        $debug && error_log($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
+        $debug && debugging($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
         $paramsforjs[] = $questionsperpage;
 
         // Add the block JS.

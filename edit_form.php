@@ -20,12 +20,6 @@
  * @package    block_quizonepagepaginate
  * @copyright IntegrityAdvocate.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Ignore some Moodle codechecker PHPCS rules that I do not entirely agree with.
- * @tags
- * @phpcs:disable moodle.Files.LineLength.MaxExceeded
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.FoundWithAlternative
- * @phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
@@ -44,7 +38,8 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
      * We can't add a type check here without causing a warning b/c the parent class does not have the type check.
      *
      * Note: Do not add a type declaration MoodleQuickForm $mform b/c it causes a...
-     *       "Warning: Declaration of block_integrityadvocate_edit_form::specific_definition(MoodleQuickForm $mform) should be compatible with block_edit_form::specific_definition($mform)"
+     *       "Warning: Declaration of block_integrityadvocate_edit_form::specific_definition(MoodleQuickForm $mform)
+     *        should be compatible with block_edit_form::specific_definition($mform)"
      *
      * @param \stdClass|MoodleQuickForm $mform the form being built.
      */
@@ -67,18 +62,20 @@ class block_quizonepagepaginate_edit_form extends block_edit_form {
     protected function specific_definition_custom(MoodleQuickForm $mform) {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug = false;
-        $debug && error_log($fxn . '::Started with $mform=' . bqopp_u::var_dump($mform, true));
+        $debug && debugging($fxn . '::Started with $mform=' . bqopp_u::var_dump($mform, true));
 
         // Static = This does not show in config as a value.
         $parentcontext = context::instance_by_id($this->block->instance->parentcontextid);
         $mform->addElement('static', 'topnote', get_string('config_topnote', \QUIZONEPAGEPAGINATE_BLOCK_NAME), get_string('config_topnote_help', \QUIZONEPAGEPAGINATE_BLOCK_NAME));
 
-        // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.
+        // Use the same number of options as quiz config, but our own wording bc the quiz config wording for this setting
+        // (e.g. "New page every 2 questions") is no longer applicable with this block active, and thus confusing.
         $range = range(1, QUIZ_MAX_QPP_OPTION);
         $pageoptions = array_combine($range, $range);
 
         // The field name must be config_* for it to be saved in the list of values.
-        $elt = $mform->createElement('select', 'config_questionsperpage', get_string('config_questionsperpage', \QUIZONEPAGEPAGINATE_BLOCK_NAME), $pageoptions, array('id' => 'id_questionsperpage'));
+        $elt = $mform->createElement('select', 'config_questionsperpage', get_string('config_questionsperpage',
+                        \QUIZONEPAGEPAGINATE_BLOCK_NAME), $pageoptions, array('id' => 'id_questionsperpage'));
         // Default to 1 question visible at a time.
         $mform->setDefault('config_questionsperpage', 1);
         $mform->addElement($elt);
