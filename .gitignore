@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+/tests/.history/
+/cypress
+/.lh/
+/workspace.code-workspace
+phpstan.phar
