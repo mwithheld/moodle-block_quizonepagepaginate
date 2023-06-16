@@ -18,7 +18,7 @@
  * Privacy subsystem implementation.
  *
  * @package    block_quizonepagepaginate
- * @copyright  2020 Brickfield Education Labs, www.brickfield.ie
+ * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 declare(strict_types=1);
