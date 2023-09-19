@@ -190,7 +190,7 @@ class block_quizonepagepaginate {
             return indexFound;
         }
 
-        self.arrQuestions.forEach(function(elt, index) {
+        self.arrQuestions.forEach(function (elt, index) {
             if (debug) { window.console.log(FXN + '::Looking at index=; elt=', index, elt); }
             if (elt.id === questionNr) {
                 if (debug) { window.console.log(FXN + '.forEach::Found matching index=', index); }
@@ -222,14 +222,14 @@ class block_quizonepagepaginate {
         const last = first + length;
         let countVisible = 0;
 
-        self.arrQuestions.forEach(function(elt, index) {
+        self.arrQuestions.forEach(function (elt, index) {
             if (debug) { window.console.log(FXN + '::Looking at index=; elt=', index, elt); }
             if (index >= first && index < last && countVisible < self.questionsperpage) {
-                if (debug) { window.console.log(FXN + '::Show this elt'); }
+                if (debug) { window.console.log(FXN + '::Show this elt', elt); }
                 self.setDisplayVal(elt, 'block');
                 countVisible++;
             } else {
-                if (debug) { window.console.log(FXN + '::Hide this elt'); }
+                if (debug) { window.console.log(FXN + '::Hide this elt', elt); }
                 self.setDisplayVal(elt, 'none');
             }
         });
@@ -259,21 +259,21 @@ class block_quizonepagepaginate {
         // String are returned in a plain array in the same order specified here.
         // E.g. [0 => "Previous", 1 => "Next"].
         const stringsToRetrieve = [{
-                key: 'previous',
-                component: 'core'
-            },
-            {
-                key: 'next',
-                component: 'core',
-            }
+            key: 'previous',
+            component: 'core'
+        },
+        {
+            key: 'next',
+            component: 'core',
+        }
         ];
 
         // We need core/str bc we get column names via ajax get_string later.
-        require(['core/str'], function(str) {
+        require(['core/str'], function (str) {
             if (debug) { window.console.log(FXN + '.require::Started with stringsToRetrieve=', stringsToRetrieve); }
 
             str.get_strings(stringsToRetrieve).then(
-                function(stringsRetrieved) {
+                function (stringsRetrieved) {
                     if (debug) { window.console.log(FXN + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved); }
 
                     const eltPrevInDom = self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
@@ -319,6 +319,7 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.buttonClickedPrev';
         if (debug) { window.console.log(FXN + '::Started'); }
 
+        self.triggerAutosave();
         self.updateVisibleQuestionRange(false);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
         self.scrollToQuestion();
@@ -330,9 +331,24 @@ class block_quizonepagepaginate {
         const FXN = self.constructor.name + '.buttonClickedNext';
         if (debug) { window.console.log(FXN + '::Started'); }
 
+        self.triggerAutosave();
         self.updateVisibleQuestionRange(true);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
         self.scrollToQuestion();
+    }
+
+    triggerAutosave() {
+        let debug = false;
+        const self = M.block_quizonepagepaginate;
+        const FXN = self.constructor.name + '.triggerAutosave';
+        if (debug) { window.console.log(FXN + '::Started'); }
+
+        try {
+            if (debug) { window.console.log(FXN + '::About to trigger autosave'); }
+            M.mod_quiz.autosave.save_changes();
+        } catch (error) {
+            window.console.log(FXN + '::autosave is disabled');
+        }
     }
 
     updateVisibleQuestionRange(getNextSet = true) {
