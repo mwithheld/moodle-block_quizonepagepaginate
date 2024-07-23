@@ -21,8 +21,11 @@
  * @copyright IntegrityAdvocate.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
+
+require_once(__DIR__ . '/classes/polyfills.php');
 
 /** @var string Short name for this plugin. */
 const QUIZONEPAGEPAGINATE_SHORTNAME = 'quizonepagepaginate';

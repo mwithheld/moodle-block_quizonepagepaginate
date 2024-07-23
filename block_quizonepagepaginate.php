@@ -21,6 +21,7 @@
  * @copyright IntegrityAdvocate.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
@@ -32,7 +33,7 @@ use block_quizonepagepaginate\Utility as bqopp_u;
 /**
  * The main class for this block.
  */
-class block_quizonepagepaginate extends block_base {
+class block_quizonepagepaginate extends \block_base {
 
     /**
      * Sets the block title.
@@ -49,18 +50,18 @@ class block_quizonepagepaginate extends block_base {
     public function applicable_formats(): array {
         return [
             'mod-quiz' => true,
-                // Unused: 'all' => false,
-                // Unused: 'course-view-social' => false,
-                // Unused: 'course-view-topics' => false,
-                // Unused: 'course-view-weeks' => false,
-                // Unused: 'course-view' => false,
-                // Unused: 'course' => false,
-                // Unused: 'mod' => false,
-                // Unused: 'my' => false,
-                // Unused: 'site-index' => false,
-                // Unused: 'site' => false,
-                // Unused: 'tag' => false,
-                // Unused: 'user-profile' => false,
+            // Unused: 'all' => false,
+            // Unused: 'course-view-social' => false,
+            // Unused: 'course-view-topics' => false,
+            // Unused: 'course-view-weeks' => false,
+            // Unused: 'course-view' => false,
+            // Unused: 'course' => false,
+            // Unused: 'mod' => false,
+            // Unused: 'my' => false,
+            // Unused: 'site-index' => false,
+            // Unused: 'site' => false,
+            // Unused: 'tag' => false,
+            // Unused: 'user-profile' => false,
         ];
     }
 
