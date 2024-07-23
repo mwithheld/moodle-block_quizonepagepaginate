@@ -309,6 +309,7 @@ class block_quizonepagepaginate {
         eltClone.setAttribute('type', prevval);
         eltClone.setAttribute('value', prevdisplay);
         eltClone.setAttribute('data-initial-value', prevdisplay);
+        eltClone.removeAttribute('disabled');
 
         return eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource);
     }
@@ -467,4 +468,4 @@ export const init = (questionsperpage) => {
     } catch (e) {
         window.console.error(e);
     }
-};
+}
