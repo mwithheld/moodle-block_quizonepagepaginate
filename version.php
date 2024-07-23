@@ -18,15 +18,16 @@
  * Block version identification.
  *
  * @package    block_quizonepagepaginate
- * @copyright IntegrityAdvocate.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IntegrityAdvocate.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'block_quizonepagepaginate';
-$plugin->version = 2023091802;
-$plugin->release = 2023091802;
+$plugin->version = 2024072200;
+$plugin->release = $plugin->version;
+$plugin->supported = [350, 440];
 $plugin->requires = 2018051700; // Moodle 3.5.0.
-$plugin->maturity = MATURITY_BETA;
+$plugin->maturity = MATURITY_STABLE;
