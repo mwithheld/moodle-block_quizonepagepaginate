@@ -21,11 +21,11 @@
  */
 /* global window, M */
 /* eslint-env es6, node */
-/* eslint-disable no-control-regex, no-alert, max-len */
+/* eslint-disable no-control-regex, no-alert, max-len no-unused-expressions */
 
 class block_quizonepagepaginate {
     constructor(questionsperpage) {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.constructor';
         debug && window.console.log(fxn + '::Started with questionsperpage=', questionsperpage);
@@ -36,7 +36,7 @@ class block_quizonepagepaginate {
         }
 
         if (isNaN(questionsperpage)) {
-            throw fxn + '::Invalid value passed for param questionsperpage';
+            throw new Error(fxn + '::Invalid value passed for param questionsperpage');
         }
 
         // How many quiz questions to show at one time.
@@ -58,7 +58,7 @@ class block_quizonepagepaginate {
     }
 
     run() {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.run';
         debug && window.console.log(fxn + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage);
@@ -84,7 +84,7 @@ class block_quizonepagepaginate {
     }
 
     shouldUseThisBlockJs() {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionIndex';
         debug && window.console.log(fxn + '::Started');
@@ -106,7 +106,7 @@ class block_quizonepagepaginate {
      * @returns {number} The matching index in self.arrQuestions; else -1.
      */
     getAnchorQuestionIndex(url = '') {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionIndex';
         debug && window.console.log(fxn + '::Started');
@@ -147,7 +147,7 @@ class block_quizonepagepaginate {
      * @returns {string} The question number e.g. "question-23-9" from the URL anchor value (e.g. from https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#question-23-9); else return empty string.
      */
     getAnchorQuestionNr(anchor = '') {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionNr';
         debug && window.console.log(fxn + '::Started');
@@ -174,7 +174,7 @@ class block_quizonepagepaginate {
      * @returns {number} The index of self.arrQuestions that matches; else -1.
      */
     findQuestionIndexFromQuestionNr(questionNr = '') {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.findQuestionIndexFromQuestionNr';
         debug && window.console.log(fxn + '::Started');
@@ -190,7 +190,7 @@ class block_quizonepagepaginate {
             return indexFound;
         }
 
-        self.arrQuestions.forEach(function (elt, index) {
+        self.arrQuestions.forEach((elt, index) => {
             debug && window.console.log(fxn + '::Looking at index=; elt=', index, elt);
             if (elt.id === questionNr) {
                 debug && window.console.log(fxn + '.forEach::Found matching index=', index);
@@ -204,7 +204,7 @@ class block_quizonepagepaginate {
     }
 
     getAllQuestions() {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAllQuestions';
         debug && window.console.log(fxn + '::Started');
@@ -214,7 +214,7 @@ class block_quizonepagepaginate {
     }
 
     hideShowQuestions(first = 0, length) {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.hideShowQuestions';
         debug && window.console.log(fxn + '::Started with start=; length=', first, length);
@@ -222,7 +222,7 @@ class block_quizonepagepaginate {
         const last = first + length;
         let countVisible = 0;
 
-        self.arrQuestions.forEach(function (elt, index) {
+        self.arrQuestions.forEach((elt, index) => {
             debug && window.console.log(fxn + '::Looking at index=; elt=', index, elt);
             if (index >= first && index < last && countVisible < self.questionsperpage) {
                 debug && window.console.log(fxn + '::Show this elt', elt);
@@ -246,14 +246,14 @@ class block_quizonepagepaginate {
     }
 
     addNextPrevButtons() {
-        let debug = false;
+        var debug = false;
         const self = this;
         const fxn = self.constructor.name + '.addNextPrevButtons';
         debug && window.console.log(fxn + '::Started with self.eltQuizFinishAttemptButtonSelector=', self.eltQuizFinishAttemptButtonSelector);
 
         const eltCloneSource = document.querySelector(self.eltQuizFinishAttemptButtonSelector);
         if (eltCloneSource === null) {
-            throw fxn + '::No button found to clone';
+            throw new Error(fxn + '::No button found to clone');
         }
 
         // String are returned in a plain array in the same order specified here.
@@ -294,7 +294,7 @@ class block_quizonepagepaginate {
      * @returns {DomElement} The DomElement we just inserted.
      */
     addPrevNextButton(eltCloneSource, nextorprev, strings) {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.addPrevNextButton';
         debug && window.console.log(fxn + '::Started');
@@ -315,7 +315,7 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedPrev() {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedPrev';
         debug && window.console.log(fxn + '::Started');
@@ -327,7 +327,7 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedNext() {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedNext';
         debug && window.console.log(fxn + '::Started');
@@ -339,7 +339,7 @@ class block_quizonepagepaginate {
     }
 
     triggerAutosave() {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.triggerAutosave';
         debug && window.console.log(fxn + '::Started');
@@ -353,7 +353,7 @@ class block_quizonepagepaginate {
     }
 
     updateVisibleQuestionRange(getNextSet = true) {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.updateVisibleQuestionRange';
         debug && window.console.log(fxn + '::Started with getNextSet=', getNextSet);
@@ -395,7 +395,7 @@ class block_quizonepagepaginate {
     }
 
     handleAnchorChange(e) {
-        let debug = false;
+        var debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.handleAnchorChange';
         debug && window.console.log(fxn + '::Started with e=', e);
@@ -457,15 +457,15 @@ class block_quizonepagepaginate {
  * @param {number} questionsperpage How many quiz questions to show at once.
  */
 export const init = (questionsperpage) => {
-    let debug = false;
+    var debug = false;
     const fxn = 'block_quizonepagepaginate::init';
     debug && window.console.log(fxn + '::Started with questionsperpage=' + questionsperpage);
 
     try {
         M.block_quizonepagepaginate = new block_quizonepagepaginate(questionsperpage);
-        //debug && window.console.log('M.block_quizonepagepaginate::Built class=', M.block_quizonepagepaginate);
+        // Disabled bc not needed: debug && window.console.log('M.block_quizonepagepaginate::Built class=', M.block_quizonepagepaginate);
         M.block_quizonepagepaginate.run();
     } catch (e) {
         window.console.error(e);
     }
-}
+};
