@@ -214,7 +214,7 @@ class block_quizonepagepaginate {
     }
 
     hideShowQuestions(first = 0, length) {
-        var debug = false;
+        var debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.hideShowQuestions';
         debug && window.console.log(fxn + '::Started with start=; length=', first, length);
@@ -226,11 +226,11 @@ class block_quizonepagepaginate {
             debug && window.console.log(fxn + '::Looking at index=; elt=', index, elt);
             if (index >= first && index < last && countVisible < self.questionsperpage) {
                 debug && window.console.log(fxn + '::Show this elt', elt);
-                self.setDisplayVal(elt, 'block');
+                elt.classList.remove('quizonepage-hidden');
                 countVisible++;
             } else {
                 debug && window.console.log(fxn + '::Hide this elt', elt);
-                self.setDisplayVal(elt, 'none');
+                elt.classList.add('quizonepage-hidden');
             }
         });
     }
@@ -239,10 +239,6 @@ class block_quizonepagepaginate {
         document.querySelector('#responseform').scrollIntoView({
             behavior: 'smooth'
         });
-    }
-
-    setDisplayVal(elt, displayVal) {
-        elt.style.display = displayVal;
     }
 
     addNextPrevButtons() {
