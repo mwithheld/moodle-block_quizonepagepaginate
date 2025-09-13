@@ -38,7 +38,7 @@ To configure the block instance: Navigate into a course quiz, turn "Edit mode" o
 -- "Appearance > Show blocks during quiz attempts" to "Yes".
 - This block will appear on "Any quiz module page" regardless of the "Display on page types" quiz setting.
 - The block will not show to students ever, or to teachers unless editing mode is on. If you Hide the block, you disable its features.
-- If you disable this block, you can reset the # questions per page in quiz settings > Layout > New page and checking the "Repaginate now" checkbox.
+- If you delete this block, you can reset the # questions per page only by deleting all quiz attempts, then in quiz settings > Layout > New page and checking the "Repaginate now" checkbox.
 
 
 ## Privacy
