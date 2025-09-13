@@ -86,16 +86,16 @@ class block_quizonepagepaginate {
     shouldUseThisBlockJs() {
         var debug = false;
         const self = this;
-        const fxn = self.constructor.name + '.getAnchorQuestionIndex';
-        debug && window.console.log(fxn + '::Started');
+        const fxn = self.constructor.name + '.shouldUseThisBlockJs';
+        debug && window.console.log(fxn + '::Started with self.shouldUseThisBlockJsVal=', self.shouldUseThisBlockJsVal);
 
         // Use a result cache bc we will use it in the constructor and run() methods.
-        if (typeof self.shouldUseThisBlockJsVal == 'undefined') {
+        if (typeof self.shouldUseThisBlockJsVal != 'undefined') {
             debug && window.console.log(fxn + '::The self.shouldUseThisBlockJs is defined with val=', self.shouldUseThisBlockJsVal);
             return self.shouldUseThisBlockJsVal;
         }
         self.shouldUseThisBlockJsVal = document.body.id === 'page-mod-quiz-attempt';
-        debug && window.console.log(fxn + '::Got self.shouldUseThisBlockJs=', self.shouldUseThisBlockJsVal);
+        debug && window.console.log(fxn + '::Got self.shouldUseThisBlockJsVal=', self.shouldUseThisBlockJsVal);
         return self.shouldUseThisBlockJsVal;
     }
 
