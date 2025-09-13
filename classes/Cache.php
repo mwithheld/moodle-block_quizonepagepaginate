@@ -34,7 +34,6 @@ use block_quizonepagepaginate\Utility as bqopp_u;
  * For documentation, see the notes at the top of this file.
  */
 final class Cache {
-
     /** @var string Cache per application. */
     public const APPLICATION = 'application';
 

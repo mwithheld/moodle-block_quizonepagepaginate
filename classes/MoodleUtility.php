@@ -37,7 +37,6 @@ use block_quizonepagepaginate\Utility as bqopp_u;
  * For documentation, see the notes at the top of this file.
  */
 final class MoodleUtility {
-
     /**
      * Return true if a course exists.
      *
@@ -492,7 +491,7 @@ final class MoodleUtility {
      */
     public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
         global $DB;
-        $DB->set_field('block_positions', 'visible', (int) $newvisibility, array('blockinstanceid' => $blockinstanceid, 'contextid' => $contextid));
+        $DB->set_field('block_positions', 'visible', (int) $newvisibility, ['blockinstanceid' => $blockinstanceid, 'contextid' => $contextid]);
     }
 
     /**
@@ -523,7 +522,7 @@ final class MoodleUtility {
         $isinstalled = !empty($pluginmanager->get_plugin_info($component));
         $debug && debugging($fxn . '::Got $isinstalled=' . bqopp_u::var_dump($isinstalled, true));
 
-        list($type, $name) = \core_component::normalize_component($component);
+        [$type, $name] = \core_component::normalize_component($component);
         $enabledplugins = $pluginmanager->get_enabled_plugins($type);
         $debug && debugging($fxn . '::For $type=' . $type . ' got $enabledplugins=' . bqopp_u::var_dump($enabledplugins, true));
         $isenabled = array_key_exists($name, $enabledplugins);

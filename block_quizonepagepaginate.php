@@ -226,7 +226,7 @@ class block_quizonepagepaginate extends \block_base {
         }
 
         $parentcontext = $this->context->get_parent_context();
-        return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);    
+        return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);
     }
 
     /**
@@ -267,7 +267,7 @@ class block_quizonepagepaginate extends \block_base {
         // Add the block JS.
         $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init', $paramsforjs);
 
-        $this->content = new stdClass;
+        $this->content = new stdClass();
         $this->content->text = \get_string('defaultcontent', \QUIZONEPAGEPAGINATE_BLOCK_NAME);
 
         return $this->content;

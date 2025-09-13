@@ -43,13 +43,11 @@ if (\version_compare(\PHP_VERSION, '7.3.0', '<')) {
     }
 }
 if (\version_compare(\PHP_VERSION, '8', '<')) {
-
     if (!\defined('FILTER_VALIDATE_BOOL') && \defined('FILTER_VALIDATE_BOOLEAN')) {
         \define('FILTER_VALIDATE_BOOL', \FILTER_VALIDATE_BOOLEAN);
     }
 
     if (!\function_exists('str_contains')) {
-
         /**
          * Polyfill for str_contains.
          *
@@ -60,10 +58,8 @@ if (\version_compare(\PHP_VERSION, '8', '<')) {
         function str_contains(string $haystack, string $needle): bool {
             return '' === $needle || false !== \mb_strpos($haystack, $needle);
         }
-
     }
     if (!\function_exists('str_icontains')) {
-
         /**
          * Case-insensitive str_contains.
          *
@@ -74,11 +70,9 @@ if (\version_compare(\PHP_VERSION, '8', '<')) {
         function str_icontains(string $haystack, string $needle): bool {
             return '' === $needle || false !== \mb_stripos($haystack, $needle);
         }
-
     }
 
     if (!\function_exists('str_starts_with')) {
-
         /**
          * Performs a case-sensitive check indicating if haystack begins with needle.
          *
@@ -89,11 +83,9 @@ if (\version_compare(\PHP_VERSION, '8', '<')) {
         function str_starts_with(string $haystack, string $needle): bool {
             return 0 === \strncmp($haystack, $needle, \mb_strlen($needle));
         }
-
     }
 
     if (!\function_exists('str_ends_with')) {
-
         /**
          * Performs a case-sensitive check indicating if haystack ends with needle.
          *
@@ -104,11 +96,9 @@ if (\version_compare(\PHP_VERSION, '8', '<')) {
         function str_ends_with(string $haystack, string $needle): bool {
             return '' === $needle || ('' !== $haystack && 0 === \substr_compare($haystack, $needle, -\mb_strlen($needle)));
         }
-
     }
 
     if (!\function_exists('get_debug_type')) {
-
         /**
          * Returns the type of a variable. The new function works in quite a similar way as the gettype function,
          * but get_debug_type returns native type names and resolves class names.
@@ -155,6 +145,5 @@ if (\version_compare(\PHP_VERSION, '8', '<')) {
 
             return (\get_parent_class($class) ?: \key(\class_implements($class)) ?: 'class') . '@anonymous';
         }
-
     }
 }

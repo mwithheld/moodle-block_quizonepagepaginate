@@ -31,7 +31,6 @@ defined('MOODLE_INTERNAL') || die;
  * For documentation, see the notes at the top of this file.
  */
 final class Utility {
-
     /**
      * Wrapper around PHP empty() that also works for objects.
      * If the object has any properties it is considered not empty.
@@ -43,7 +42,7 @@ final class Utility {
      */
     public static function is_empty($obj): bool {
         switch (true) {
-            case!\is_object($obj):
+            case !\is_object($obj):
                 return empty($obj);
             case is_string($obj):
                 return strlen($obj) < 1;
@@ -101,8 +100,12 @@ final class Utility {
         \raise_memory_limit(\MEMORY_HUGE);
 
         if (\is_object($expression)) {
-            if (\property_exists($expression, 'page') && (\gettype($expression->page) == 'object')
-                    && \class_exists('moodle_page', false) && $expression->page instanceof \moodle_page) {
+            if (
+                \property_exists($expression, 'page')
+                && (\gettype($expression->page) == 'object')
+                && \class_exists('moodle_page', false)
+                && $expression->page instanceof \moodle_page
+            ) {
                 $expression->page = null;
             }
             if (\method_exists(\get_class($expression), '__toString')) {
@@ -110,8 +113,13 @@ final class Utility {
             }
         }
 
-        if (\is_array($expression) && isset($expression['page']) && (\gettype($expression['page']) == 'object')
-                && \class_exists('moodle_page', false) && $expression['page'] instanceof \moodle_page) {
+        if (
+            \is_array($expression)
+            && isset($expression['page'])
+            && (\gettype($expression['page']) == 'object')
+            && \class_exists('moodle_page', false)
+            && $expression['page'] instanceof \moodle_page
+        ) {
             unset($expression['page']);
         }
 

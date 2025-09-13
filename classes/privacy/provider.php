@@ -29,11 +29,9 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Privacy Subsystem.
+ * This plugin stores no privacy-related data.
  */
-class provider implements
-// This plugin stores no privacy-related data.
-\core_privacy\local\metadata\null_provider {
-
+class provider implements \core_privacy\local\metadata\null_provider {
     /**
      * Get the language string identifier with the component's language
      * file to explain why this plugin stores no data.

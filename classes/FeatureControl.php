@@ -31,7 +31,6 @@ defined('MOODLE_INTERNAL') || die;
  * For documentation, see the notes at the top of this file.
  */
 final class FeatureControl {
-
     /** @var bool True to allow PHP-side caching using MUC. */
     public const CACHE = false;
 }

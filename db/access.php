@@ -25,22 +25,22 @@
 declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
-$capabilities = array(
-    'block/quizonepagepaginate:addinstance' => array(
+$capabilities = [
+    'block/quizonepagepaginate:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ),
+        ],
         'clonepermissionsfrom' => 'moodle/site:manageblocks',
-    ),
-    'block/quizonepagepaginate:view' => array(
+    ],
+    'block/quizonepagepaginate:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ),
-    ),
-);
+        ],
+    ],
+];
