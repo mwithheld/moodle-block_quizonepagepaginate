@@ -34,6 +34,8 @@ use block_quizonepagepaginate\Utility as bqopp_u;
  * The main class for this block.
  */
 class block_quizonepagepaginate extends \block_base {
+    /** @var bool */
+    protected $visible;
 
     /**
      * Sets the block title.
@@ -224,7 +226,7 @@ class block_quizonepagepaginate extends \block_base {
         }
 
         $parentcontext = $this->context->get_parent_context();
-        return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);
+        return $this->visible = bqopp_mu::is_block_visibile($parentcontext->id, $this->context->id);    
     }
 
     /**
