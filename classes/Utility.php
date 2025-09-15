@@ -125,7 +125,7 @@ final class Utility {
 
         // Preg_replace prevents dying on base64-encoded images.
         // phpcs:ignore
-        return \print_r(\preg_replace(INTEGRITYADVOCATE_REGEX_DATAURI, 'redacted_base64_image', \print_r($expression, true)), $return);
+        return \print_r(\print_r($expression, true), $return);
     }
 
     /**
