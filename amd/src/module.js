@@ -24,11 +24,11 @@
 /* eslint-disable no-control-regex, no-alert, max-len no-unused-expressions */
 
 class block_quizonepagepaginate {
-    constructor(questionsperpage) {
+    constructor(versionstring, questionsperpage) {
         const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.constructor';
-        debug && window.console.log(fxn + '::Started with questionsperpage=', questionsperpage);
+        window.console.log(fxn + '::Started with versionstring=' + versionstring + '; questionsperpage=' + questionsperpage);
 
         if (!self.isAQuizAttemptPage()) {
             debug && window.console.log(fxn + '::We should not use this block JS');
@@ -68,12 +68,11 @@ class block_quizonepagepaginate {
         debug && window.console.log(fxn + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage);
 
         if (!self.isAQuizAttemptPage() || !self.shouldQuizPaginate()) {
-            debug && window.console.log(fxn + '::We should not use this block JS');
+            window.console.log(fxn + '::We should not use this block JS');
             return;
         }
 
         self.getAllQuestions();
-
 
         debug && window.console.log(fxn + '::About to self.addNextPrevButtons()');
         self.addNextPrevButtons();
@@ -294,7 +293,7 @@ class block_quizonepagepaginate {
         }
         ];
 
-        // We need core/str bc we get column names via ajax get_string later.
+        // We need core/str bc we use some of the strings for the UI.
         require(['core/str'], function(str) {
             debug && window.console.log(fxn + '.require::Started with stringsToRetrieve=', stringsToRetrieve);
 
@@ -499,13 +498,13 @@ class block_quizonepagepaginate {
  *
  * @param {number} questionsperpage How many quiz questions to show at once.
  */
-export const init = (questionsperpage) => {
-    var debug = false;
+export const init = (versionstring, questionsperpage) => {
+    const debug = false;
     const fxn = 'block_quizonepagepaginate::init';
-    debug && window.console.log(fxn + '::Started with questionsperpage=' + questionsperpage);
+    debug && window.console.log(fxn + '::Started with versionstring=' + versionstring + '; questionsperpage=' + questionsperpage);
 
     try {
-        M.block_quizonepagepaginate = new block_quizonepagepaginate(questionsperpage);
+        M.block_quizonepagepaginate = new block_quizonepagepaginate(versionstring, questionsperpage);
         // Disabled bc not needed: debug && window.console.log('M.block_quizonepagepaginate::Built class=', M.block_quizonepagepaginate);
         M.block_quizonepagepaginate.run();
     } catch (e) {
