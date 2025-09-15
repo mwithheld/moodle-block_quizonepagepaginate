@@ -262,6 +262,9 @@ class block_quizonepagepaginate {
                 elt.classList.add('quizonepage-hidden');
             }
         });
+
+        // Update button visibility after showing/hiding questions
+        self.updatePrevNextButtonVisibility();
     }
 
     scrollToQuestion() {
@@ -348,7 +351,29 @@ class block_quizonepagepaginate {
         eltClone.setAttribute('data-initial-value', prevdisplay);
         eltClone.removeAttribute('disabled');
 
+        // Update button visibility after adding
+        self.updatePrevNextButtonVisibility();
+
         return eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource);
+    }
+
+    updatePrevNextButtonVisibility() {
+        const debug = false;
+        const self = M.block_quizonepagepaginate;
+        const fxn = self.constructor.name + '.updatePrevNextButtonVisibility';
+        debug && window.console.log(fxn + '::Started');
+
+        const prevBtn = document.getElementById(self.eltBqoppButtonPrev);
+        const nextBtn = document.getElementById(self.eltBqoppButtonNext);
+
+        if (prevBtn) {
+            prevBtn.style.display = (self.firstQuestionToShow <= 0) ? 'none' : '';
+        }
+        if (nextBtn) {
+            const lastPageStart = self.arrQuestions.length - self.questionsperpage;
+            prevBtn && (prevBtn.style.display = (self.firstQuestionToShow <= 0) ? 'none' : '');
+            nextBtn.style.display = (self.firstQuestionToShow >= lastPageStart) ? 'none' : '';
+        }
     }
 
     buttonClickedPrev() {
@@ -361,6 +386,7 @@ class block_quizonepagepaginate {
         self.updateVisibleQuestionRange(false);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
         self.scrollToQuestion();
+        self.updatePrevNextButtonVisibility();
     }
 
     buttonClickedNext() {
@@ -373,6 +399,7 @@ class block_quizonepagepaginate {
         self.updateVisibleQuestionRange(true);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
         self.scrollToQuestion();
+        self.updatePrevNextButtonVisibility();
     }
 
     triggerAutosave() {
