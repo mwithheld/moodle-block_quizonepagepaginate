@@ -130,7 +130,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     private function autoupdate_quiz_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && debugging($fxn . '::Started');
 
         global $COURSE, $DB;
@@ -238,7 +238,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = true;
+        $debug = false;
         $debug && debugging($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
