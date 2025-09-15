@@ -130,7 +130,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     private function autoupdate_quiz_config(): bool {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = false;
+        $debug = true;
         $debug && debugging($fxn . '::Started');
 
         global $COURSE, $DB;
@@ -146,13 +146,15 @@ class block_quizonepagepaginate extends \block_base {
         $record = $DB->get_record('quiz', ['id' => (int) ($cm->instance)], '*', \MUST_EXIST);
         $debug && debugging($fxn . '::Got record=' . bqopp_u::var_dump($record, true));
 
-        // Update the quiz info.
+        // Force-update the quiz config.
         $changedquizconfig = true;
         if ($record->showblocks < 1) {
             $record->showblocks = 1;
+            $debug && debugging($fxn . '::Forced showblocks=1');
             $changedquizconfig = true;
         }
         if ($record->questionsperpage !== 0) {
+            $debug && debugging($fxn . '::Forced questionsperpage=0');
             $record->questionsperpage = 0;
             $changedquizconfig = true;
         }
@@ -201,7 +203,7 @@ class block_quizonepagepaginate extends \block_base {
         $debug && debugging($fxn . '::Got $blockid=' . $blockid . '; $newvisibility=' . $newvisibility);
 
         if (!in_array($newvisibility, [0, 1]) || $blockid !== intval($this->instance->id)) {
-            $debug && debugging($fxn . '::Bad values found so skip out' . bqopp_u::var_dump($this->instance, true));
+            $debug && debugging($fxn . '::Bad visibility values found so skip out' . bqopp_u::var_dump($this->instance, true));
             return;
         }
 
@@ -236,7 +238,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     public function get_content() {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug = false;
+        $debug = true;
         $debug && debugging($fxn . '::Started with configdata=' . bqopp_u::var_dump($this->config, true));
 
         // If the block is configured to be Hidden, disable the functionality entirely.
