@@ -337,17 +337,6 @@ class block_quizonepagepaginate {
         }
         debug && window.console.log(fxn + '::Done validating params');
 
-        // If there is already a Moodle-core-provided prev/next button, do not add another one.
-        // if (
-        //     (nextorprev === 'prev' && document.getElementById('mod_quiz-prev-nav')) ||
-        //     (nextorprev === 'next' && document.getElementById('mod_quiz-next-nav'))
-        // ) {
-        //     debug && window.console.log(fxn + '::A Moodle-core ' + nextorprev + ' button already exists so just return');
-        //     return;
-        // } else {
-        //     debug && window.console.log(fxn + '::No Moodle-core ' + nextorprev + ' button found so continue');
-        // }
-
         const eltClone = eltCloneSource.cloneNode();
         const isPrev = nextorprev === 'prev';
         const prevval = (isPrev ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
