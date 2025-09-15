@@ -25,12 +25,12 @@
 
 class block_quizonepagepaginate {
     constructor(questionsperpage) {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.constructor';
         debug && window.console.log(fxn + '::Started with questionsperpage=', questionsperpage);
 
-        if (!self.shouldUseThisBlockJs()) {
+        if (!self.isAQuizAttemptPage()) {
             debug && window.console.log(fxn + '::We should not use this block JS');
             return;
         }
@@ -41,6 +41,10 @@ class block_quizonepagepaginate {
 
         // How many quiz questions to show at one time.
         self.questionsperpage = parseInt(questionsperpage);
+        if (self.questionsperpage < 1) {
+            throw new Error(fxn + '::Invalid value passed for param questionsperpage');
+        }
+
         // The index of the first quiz question to show.
         self.firstQuestionToShow = 0;
 
@@ -58,17 +62,20 @@ class block_quizonepagepaginate {
     }
 
     run() {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.run';
         debug && window.console.log(fxn + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage);
 
-        if (!self.shouldUseThisBlockJs()) {
+        if (!self.isAQuizAttemptPage() || !self.shouldQuizPaginate()) {
             debug && window.console.log(fxn + '::We should not use this block JS');
             return;
         }
 
         self.getAllQuestions();
+
+
+        debug && window.console.log(fxn + '::About to self.addNextPrevButtons()');
         self.addNextPrevButtons();
 
         // Handle changes to URL anchor.
@@ -83,20 +90,25 @@ class block_quizonepagepaginate {
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
     }
 
-    shouldUseThisBlockJs() {
-        var debug = false;
-        const self = this;
-        const fxn = self.constructor.name + '.shouldUseThisBlockJs';
-        debug && window.console.log(fxn + '::Started with self.shouldUseThisBlockJsVal=', self.shouldUseThisBlockJsVal);
+    isAQuizAttemptPage() {
+        return document.body.id === 'page-mod-quiz-attempt';
+    }
 
-        // Use a result cache bc we will use it in the constructor and run() methods.
-        if (typeof self.shouldUseThisBlockJsVal != 'undefined') {
-            debug && window.console.log(fxn + '::The self.shouldUseThisBlockJs is defined with val=', self.shouldUseThisBlockJsVal);
-            return self.shouldUseThisBlockJsVal;
-        }
-        self.shouldUseThisBlockJsVal = document.body.id === 'page-mod-quiz-attempt';
-        debug && window.console.log(fxn + '::Got self.shouldUseThisBlockJsVal=', self.shouldUseThisBlockJsVal);
-        return self.shouldUseThisBlockJsVal;
+    shouldQuizPaginate() {
+        const debug = false;
+        const self = this;
+        const fxn = self.constructor.name + '.shouldQuizPaginate';
+        debug && window.console.log(fxn + '::Started');
+
+        let shouldQuizPaginate = false;
+
+        // Populate self.arrQuestions if not already done.
+        self.getAllQuestions();
+
+        shouldQuizPaginate = self.questionsperpage < self.arrQuestions.length;
+        debug && window.console.log(fxn + '::Got self.questionsperpage=' + self.questionsperpage + ' is it < self.arrQuestions.length=' + self.arrQuestions.length, shouldQuizPaginate);
+
+        return shouldQuizPaginate;
     }
 
     /**
@@ -106,7 +118,7 @@ class block_quizonepagepaginate {
      * @returns {number} The matching index in self.arrQuestions; else -1.
      */
     getAnchorQuestionIndex(url = '') {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionIndex';
         debug && window.console.log(fxn + '::Started');
@@ -116,6 +128,7 @@ class block_quizonepagepaginate {
         const anchor = self.getAnchor(url);
         debug && window.console.log(fxn + '::Got anchor=', anchor);
         if (!anchor || anchor.length < 'question-1-1'.length) {
+            debug && window.console.log(fxn + '::No anchor  so return questionIndex=', questionIndex);
             return questionIndex;
         }
 
@@ -136,6 +149,10 @@ class block_quizonepagepaginate {
      * @returns {string} The URL anchor value (e.g. "blah" in url=https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#blah); else return empty string.
      */
     getAnchor(url = '') {
+        if (!url || url.length < 1 || typeof url !== 'string') {
+            return '';
+        }
+
         let anchor = url.split("#")[1];
         return anchor ? anchor : "";
     }
@@ -147,7 +164,7 @@ class block_quizonepagepaginate {
      * @returns {string} The question number e.g. "question-23-9" from the URL anchor value (e.g. from https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#question-23-9); else return empty string.
      */
     getAnchorQuestionNr(anchor = '') {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionNr';
         debug && window.console.log(fxn + '::Started');
@@ -174,15 +191,15 @@ class block_quizonepagepaginate {
      * @returns {number} The index of self.arrQuestions that matches; else -1.
      */
     findQuestionIndexFromQuestionNr(questionNr = '') {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.findQuestionIndexFromQuestionNr';
-        debug && window.console.log(fxn + '::Started');
+        debug && window.console.log(fxn + '::Started with questionNr=', questionNr);
 
         let indexFound = -1;
 
-        if (!questionNr) {
-            window.console.log(fxn + '::Invalid value passed for param questionNr so return not found');
+        if (!questionNr || typeof questionNr !== 'string' || questionNr.length < 'question-1-1'.length) {
+            window.console.log(fxn + '::Invalid value passed for questionNr so return not found');
             return indexFound;
         }
         if (self.arrQuestions.length < 1) {
@@ -191,7 +208,7 @@ class block_quizonepagepaginate {
         }
 
         self.arrQuestions.forEach((elt, index) => {
-            debug && window.console.log(fxn + '::Looking at index=; elt=', index, elt);
+            debug && window.console.log(fxn + '::Looking at index=' + index + '; elt=', elt);
             if (elt.id === questionNr) {
                 debug && window.console.log(fxn + '.forEach::Found matching index=', index);
                 indexFound = index;
@@ -204,28 +221,41 @@ class block_quizonepagepaginate {
     }
 
     getAllQuestions() {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.getAllQuestions';
         debug && window.console.log(fxn + '::Started');
+
+        // If self.arrQuestions is already populated, just return it.
+        if (typeof self.arrQuestions != 'undefined' && self.arrQuestions.length > 0) {
+            debug && window.console.log(fxn + '::self.arrQuestions is already populated so just return it');
+            return self.arrQuestions;
+        }
 
         self.arrQuestions = document.querySelectorAll(self.eltQuestionsSelector);
         debug && window.console.log(fxn + '::Found ' + self.arrQuestions.length + ' questions on the page');
     }
 
     hideShowQuestions(first = 0, length) {
-        var debug = true;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.hideShowQuestions';
-        debug && window.console.log(fxn + '::Started with start=; length=', first, length);
+        debug && window.console.log(fxn + '::Started with first=' + first + '; length=' + length);
+
+        if (isNaN(first) || isNaN(length) || first < 0 || length < 1) {
+            throw new Error(fxn + '::Invalid value passed for param first or length');
+        }
+        if (self.arrQuestions.length < 1) {
+            throw new Error(fxn + '::self.arrQuestions is empty');
+        }
 
         const last = first + length;
         let countVisible = 0;
 
         self.arrQuestions.forEach((elt, index) => {
-            debug && window.console.log(fxn + '::Looking at index=; elt=', index, elt);
+            debug && window.console.log(fxn + '::Looking at question index=' + index + '; elt=', elt);
             if (index >= first && index < last && countVisible < self.questionsperpage) {
-                debug && window.console.log(fxn + '::Show this elt', elt);
+                debug && window.console.log(fxn + '::Show this elt  ', elt);
                 elt.classList.remove('quizonepage-hidden');
                 countVisible++;
             } else {
@@ -242,7 +272,7 @@ class block_quizonepagepaginate {
     }
 
     addNextPrevButtons() {
-        var debug = false;
+        const debug = false;
         const self = this;
         const fxn = self.constructor.name + '.addNextPrevButtons';
         debug && window.console.log(fxn + '::Started with self.eltQuizFinishAttemptButtonSelector=', self.eltQuizFinishAttemptButtonSelector);
@@ -265,11 +295,11 @@ class block_quizonepagepaginate {
         ];
 
         // We need core/str bc we get column names via ajax get_string later.
-        require(['core/str'], function (str) {
+        require(['core/str'], function(str) {
             debug && window.console.log(fxn + '.require::Started with stringsToRetrieve=', stringsToRetrieve);
 
             str.get_strings(stringsToRetrieve).then(
-                function (stringsRetrieved) {
+                function(stringsRetrieved) {
                     debug && window.console.log(fxn + '.require.get_strings.then::Started with stringsRetrieved=', stringsRetrieved);
 
                     const eltPrevInDom = self.addPrevNextButton(eltCloneSource, 'prev', stringsRetrieved);
@@ -290,10 +320,33 @@ class block_quizonepagepaginate {
      * @returns {DomElement} The DomElement we just inserted.
      */
     addPrevNextButton(eltCloneSource, nextorprev, strings) {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.addPrevNextButton';
-        debug && window.console.log(fxn + '::Started');
+        debug && window.console.log(fxn + '::Started wih eltCloneSource=; nextorprev=; strings=', eltCloneSource, nextorprev, strings);
+
+        // Validate params.
+        if (!(eltCloneSource instanceof Element)) {
+            throw new Error(fxn + '::Invalid value passed for param eltCloneSource');
+        }
+        if (nextorprev !== 'prev' && nextorprev !== 'next') {
+            throw new Error(fxn + '::Invalid value passed for param nextorprev');
+        }
+        if (!Array.isArray(strings) || strings.length < 2) {
+            throw new Error(fxn + '::Invalid value passed for param strings');
+        }
+        debug && window.console.log(fxn + '::Done validating params');
+
+        // If there is already a Moodle-core-provided prev/next button, do not add another one.
+        // if (
+        //     (nextorprev === 'prev' && document.getElementById('mod_quiz-prev-nav')) ||
+        //     (nextorprev === 'next' && document.getElementById('mod_quiz-next-nav'))
+        // ) {
+        //     debug && window.console.log(fxn + '::A Moodle-core ' + nextorprev + ' button already exists so just return');
+        //     return;
+        // } else {
+        //     debug && window.console.log(fxn + '::No Moodle-core ' + nextorprev + ' button found so continue');
+        // }
 
         const eltClone = eltCloneSource.cloneNode();
         const isPrev = nextorprev === 'prev';
@@ -311,7 +364,7 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedPrev() {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedPrev';
         debug && window.console.log(fxn + '::Started');
@@ -323,7 +376,7 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedNext() {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedNext';
         debug && window.console.log(fxn + '::Started');
@@ -335,7 +388,7 @@ class block_quizonepagepaginate {
     }
 
     triggerAutosave() {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.triggerAutosave';
         debug && window.console.log(fxn + '::Started');
@@ -349,7 +402,7 @@ class block_quizonepagepaginate {
     }
 
     updateVisibleQuestionRange(getNextSet = true) {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.updateVisibleQuestionRange';
         debug && window.console.log(fxn + '::Started with getNextSet=', getNextSet);
@@ -390,8 +443,13 @@ class block_quizonepagepaginate {
         debug && window.console.log(fxn + '::Done; firstOfAllQs=' + firstOfAllQs + '; lengthToShow=' + lengthToShow + '; lastOfAllQs=' + lastOfAllQs);
     }
 
+    /**
+     * If the user clicks a quiz navigation block link or types in a URL anchor, handle it here.
+     * @param {*} e Event object from the event listener.
+     * @returns void
+     */
     handleAnchorChange(e) {
-        var debug = false;
+        const debug = false;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.handleAnchorChange';
         debug && window.console.log(fxn + '::Started with e=', e);
@@ -413,7 +471,7 @@ class block_quizonepagepaginate {
             // Is target a child of a mod_quiz_navblock instance?
             const eltBlock = target.closest('#mod_quiz_navblock');
             if (!eltBlock) {
-                debug && window.console.log('The target is not a child of the quiz navigation block so skip out');
+                debug && window.console.log('The target is not a child of the quiz navigation block so just return');
                 return;
             }
 
@@ -421,7 +479,7 @@ class block_quizonepagepaginate {
             const closestA = target.closest('a.qnbutton');
             debug && window.console.log('Found closestA=', closestA);
             if (!closestA) {
-                debug && window.console.log('This is not a targeted element so skip out');
+                debug && window.console.log('This is not a targeted element so just return');
                 return;
             }
 
@@ -430,7 +488,7 @@ class block_quizonepagepaginate {
         }
 
         if (foundHref.length < 1) {
-            debug && window.console.log('No valid href found so skip out');
+            debug && window.console.log('No valid href found so just return');
             return;
         }
 
