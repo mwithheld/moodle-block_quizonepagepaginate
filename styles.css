@@ -20,6 +20,8 @@ Hide the quiz config for Layout>New Page:# questions per page, since we are forc
     display: none;
 }
 
-.quizonepage-hidden {
+/* Prevent .que{display:flex} from overriding our question hiding */
+
+.que.quizonepage-hidden {
     display: none;
 }
