@@ -267,7 +267,7 @@ class block_quizonepagepaginate extends \block_base {
         $paramsforjs[] = $questionsperpage;
 
         global $CFG;
-        
+
         $pluginversion = get_config('block_quizonepagepaginate', 'version');
         $paramsforjs[] = '[' . get_string('version', 'plugin') . ' ' . $pluginversion . ' on M' . $CFG->release . ']';
 
