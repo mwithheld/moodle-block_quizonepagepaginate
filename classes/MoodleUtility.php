@@ -572,62 +572,6 @@ final class MoodleUtility {
     }
 
     /**
-     * A wrapper around datalib.php::get_all_instances_in_course() with per-request caching.
-     *
-     * Returns an array of all the active instances of a particular module in a given course,
-     * sorted in the order they are defined.
-     *
-     * Returns an array of all the active instances of a particular
-     * module in a given course, sorted in the order they are defined
-     * in the course. Returns an empty array on any errors.
-     *
-     * The returned objects includle the columns cw.section, cm.visible,
-     * cm.groupmode, and cm.groupingid, and are indexed by cm.id.
-     *
-     * Simply calls all_instances_in_courses() with a single provided course
-     *
-     * @param string $modulename The name of the module to get instances for.  This the shortname (e.g. zoom) not the frankenstyle name (e.g. mod_zoom).
-     * @param \stdClass $course The course obect.
-     * @param int $userid Return only those available to this user.
-     * @param bool $includeinvisible True to include visible only.
-     * @return array of module instance objects, including some extra fields from the course_modules
-     *          and course_sections tables, or an empty array if an error occurred.
-     */
-    public static function get_all_instances_in_course(string $modulename, \stdClass $course, int $userid = null, bool $includeinvisible = false) {
-        $debug = false;
-        $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && debugging($fxn . '::Started with $modulename=' . $modulename . '; $courseid=' . $course->id .
-                        '; $userid=' . $userid . '; $includeinvisible=' . $includeinvisible);
-
-        // Cache so multiple calls don't repeat the same work.
-        $cache = \cache::make(__NAMESPACE__, bqopp_cache::PERREQUEST);
-        $cachekey = bqopp_mu::get_cache_key(implode('_', [$fxn, $modulename, $course->id, serialize($userid), $includeinvisible]));
-        if (FeatureControl::CACHE && ($cachedvalue = $cache->get($cachekey))) {
-            if ($cachedvalue !== false) {
-                $debug && debugging($fxn . '::Found a cached value, so return that');
-                return $cachedvalue;
-            }
-        }
-
-        $returnthis = \get_all_instances_in_course($modulename, $course, $userid, $includeinvisible);
-
-        // Remove activities that are in the process of being deleted.
-        $modinfo = get_fast_modinfo($course);
-        foreach ($returnthis as $key => $activityinstance) {
-            $cm = $modinfo->get_cm($activityinstance->coursemodule);
-            if (!$cm || $cm->deletioninprogress) {
-                unset($returnthis[$key]);
-            }
-        }
-
-        if (FeatureControl::CACHE && !$cache->set($cachekey, $returnthis)) {
-            throw new \Exception('Failed to set value in the cache');
-        }
-
-        return $returnthis;
-    }
-
-    /**
      * Strip out non-ASCII text and HTML tags.
      *
      * @param string $str The string to clean.
