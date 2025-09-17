@@ -350,6 +350,7 @@ class block_quizonepagepaginate {
         eltClone.setAttribute('id', prevval);
         eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
         eltClone.name = prevval;
+        eltClone.type = 'button';
         eltClone.value = prevdisplay; // Safari fix
         eltClone.setAttribute('data-initial-value', prevdisplay);
         eltClone.removeAttribute('disabled');
