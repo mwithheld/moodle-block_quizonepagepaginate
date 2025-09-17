@@ -19,8 +19,6 @@
  * @copyright   IntegrityAdvocate.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/* global window, M */
-/* eslint-env es6, node */
 
 class block_quizonepagepaginate {
     constructor(versionstring, questionsperpage) {
