@@ -149,7 +149,7 @@ class block_quizonepagepaginate {
             return '';
         }
 
-        let anchor = url.split("#")[1];
+        const anchor = url.split("#")[1];
         return anchor ? anchor : "";
     }
 
@@ -262,7 +262,7 @@ class block_quizonepagepaginate {
             }
         });
 
-        // Update button visibility after showing/hiding questions
+        // Update button visibility after showing/hiding questions.
         self.updatePrevNextButtonVisibility();
     }
 
@@ -351,11 +351,11 @@ class block_quizonepagepaginate {
         eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
         eltClone.name = prevval;
         eltClone.type = 'button';
-        eltClone.value = prevdisplay; // Safari fix
+        eltClone.value = prevdisplay; // Safari fix.
         eltClone.setAttribute('data-initial-value', prevdisplay);
         eltClone.removeAttribute('disabled');
 
-        // Update button visibility after adding
+        // Update button visibility after adding.
         self.updatePrevNextButtonVisibility();
 
         return eltCloneSource.parentNode.insertBefore(eltClone, eltCloneSource);
