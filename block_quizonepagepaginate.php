@@ -263,13 +263,13 @@ class block_quizonepagepaginate extends \block_base {
         } else {
             $questionsperpage = 1;
         }
-        $debug && debugging($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
-        $paramsforjs[] = $questionsperpage;
-
         global $CFG;
 
         $pluginversion = get_config('block_quizonepagepaginate', 'version');
         $paramsforjs[] = '[' . get_string('version', 'plugin') . ' ' . $pluginversion . ' on M' . $CFG->release . ']';
+
+        $debug && debugging($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
+        $paramsforjs[] = $questionsperpage;
 
         // Add the block JS.
         $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init', $paramsforjs);
