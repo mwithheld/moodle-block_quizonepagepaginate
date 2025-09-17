@@ -233,6 +233,8 @@ class block_quizonepagepaginate {
 
         self.arrQuestions = document.querySelectorAll(self.eltQuestionsSelector);
         debug && window.console.log(fxn + '::Found ' + self.arrQuestions.length + ' questions on the page');
+
+        return self.arrQuestions;
     }
 
     hideShowQuestions(first = 0, length) {
@@ -309,6 +311,8 @@ class block_quizonepagepaginate {
 
                     const eltNextInDom = self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
                     eltNextInDom.addEventListener('click', self.buttonClickedNext);
+                }).catch(function(err) {
+                    console.error(fxn + '::Failed to get strings', err);
                 });
         });
     }
@@ -533,6 +537,7 @@ class block_quizonepagepaginate {
 /**
  * Setup the module.
  *
+ * @param {string} versionstring The Moodle version string e.g. "2022090900".
  * @param {number} questionsperpage How many quiz questions to show at once.
  */
 export const init = (versionstring, questionsperpage) => {
