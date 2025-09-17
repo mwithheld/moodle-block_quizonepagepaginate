@@ -31,7 +31,7 @@ class block_quizonepagepaginate {
         window.console.log(fxn + '::Started with versionstring=' + versionstring + '; questionsperpage=' + questionsperpage);
 
         if (!self.isAQuizAttemptPage()) {
-            debug && window.console.log(fxn + '::We should not use this block JS');
+            debug && window.console.log(fxn + '::We should not use this block JS bc this is not a quiz attempt page');
             return;
         }
 
@@ -68,7 +68,7 @@ class block_quizonepagepaginate {
         debug && window.console.log(fxn + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage);
 
         if (!self.isAQuizAttemptPage() || !self.shouldQuizPaginate()) {
-            window.console.log(fxn + '::We should not use this block JS');
+            window.console.log(fxn + '::We should not use this block JS: self.isAQuizAttemptPage()=' + self.isAQuizAttemptPage() + '; self.shouldQuizPaginate()=' + self.shouldQuizPaginate());
             return;
         }
 
@@ -344,10 +344,9 @@ class block_quizonepagepaginate {
         const prevval = (isPrev ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
         const prevdisplay = strings[(isPrev ? 0 : 1)];
         eltClone.setAttribute('id', prevval);
-        eltClone.setAttribute('class', eltClone.getAttribute('class').replace('btn-primary', 'btn-secondary'));
-        eltClone.setAttribute('name', prevval);
-        eltClone.setAttribute('type', prevval);
-        eltClone.setAttribute('value', prevdisplay);
+        eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
+        eltClone.name = prevval;
+        eltClone.value = prevdisplay; // Safari fix
         eltClone.setAttribute('data-initial-value', prevdisplay);
         eltClone.removeAttribute('disabled');
 
@@ -367,12 +366,23 @@ class block_quizonepagepaginate {
         const nextBtn = document.getElementById(self.eltBqoppButtonNext);
 
         if (prevBtn) {
-            prevBtn.style.display = (self.firstQuestionToShow <= 0) ? 'none' : '';
+            if (self.firstQuestionToShow <= 0) {
+                prevBtn.setAttribute('disabled', 'disabled');
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.removeAttribute('disabled');
+                prevBtn.classList.remove('disabled');
+            }
         }
         if (nextBtn) {
             const lastPageStart = self.arrQuestions.length - self.questionsperpage;
-            prevBtn && (prevBtn.style.display = (self.firstQuestionToShow <= 0) ? 'none' : '');
-            nextBtn.style.display = (self.firstQuestionToShow >= lastPageStart) ? 'none' : '';
+            if (self.firstQuestionToShow >= lastPageStart) {
+                nextBtn.setAttribute('disabled', 'disabled');
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.removeAttribute('disabled');
+                nextBtn.classList.remove('disabled');
+            }
         }
     }
 
