@@ -308,11 +308,11 @@ class block_quizonepagepaginate {
 
                     const eltNextInDom = self.addPrevNextButton(eltCloneSource, 'next', stringsRetrieved);
                     eltNextInDom.addEventListener('click', self.buttonClickedNext);
-                    
+
                     return stringsRetrieved;
                 }).catch(function(err) {
                     console.error(fxn + '::Failed to get strings', err);
-                    throw err; // optional: re-throw to propagate error
+                    throw err; // Re-throw to propagate error
                 });
         });
     }
