@@ -21,7 +21,6 @@
  */
 /* global window, M */
 /* eslint-env es6, node */
-/* eslint-disable no-control-regex, no-alert, max-len no-unused-expressions */
 
 class block_quizonepagepaginate {
     constructor(versionstring, questionsperpage) {
