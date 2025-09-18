@@ -72,7 +72,7 @@ Feature: Basic functionality
 
     And "One Page Paginate" "block" should exist
     And "One Page Paginate" "block" should not be visible
-    
+
     When I press "Re-attempt quiz"
     # Page 1
     # Q1
