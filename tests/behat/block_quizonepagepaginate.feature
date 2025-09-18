@@ -64,6 +64,8 @@ Feature: Basic functionality
     And "One Page Paginate" "block" should be visible
     And I expand all fieldsets
     Then "#id_questionsperpage" "css_element" should not be visible
+    # And I click on "Show more..." "link"
+    # And id_showblocks_label
     And I log out
 
     # As student, attempt quiz again (should see one question at a time)
