@@ -343,16 +343,18 @@ class block_quizonepagepaginate {
         }
         debug && window.console.log(fxn + '::Done validating params');
 
-        const eltClone = eltCloneSource.cloneNode();
         const isPrev = nextorprev === 'prev';
-        const prevval = (isPrev ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
-        const prevdisplay = strings[(isPrev ? 0 : 1)];
-        eltClone.setAttribute('id', prevval);
+        const btnname = (isPrev ? self.eltBqoppButtonPrev : self.eltBqoppButtonNext);
+        const btnvalue = strings[(isPrev ? 0 : 1)];
+
+        // The param=true keeps attributes but not listeners.
+        const eltClone = eltCloneSource.cloneNode(true);
+        eltClone.setAttribute('id', btnname);
         eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
-        eltClone.name = prevval;
-        eltClone.type = 'button';
-        eltClone.value = prevdisplay; // Safari fix.
-        eltClone.setAttribute('data-initial-value', prevdisplay);
+        eltClone.name = btnname;
+        eltClone.type = 'button'; // Prevents MacOS from navigating when type=submit.
+        eltClone.setAttribute('value', btnvalue); // Safari fix.
+        eltClone.setAttribute('data-initial-value', btnvalue);
         eltClone.removeAttribute('disabled');
 
         // Update button visibility after adding.
