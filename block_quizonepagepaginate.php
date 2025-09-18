@@ -174,7 +174,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     public function specialization() {
         // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
-        $this->page->add_body_class('block_quizonepagepaginate');
+        $this->page->add_body_class(__CLASS__);
 
         // If user shows/hides block in one pagetype of the quiz, also show/hide it in all the other pagetypes.
         $this->handle_block_visibility_change();
@@ -265,14 +265,14 @@ class block_quizonepagepaginate extends \block_base {
         }
         global $CFG;
 
-        $pluginversion = get_config('block_quizonepagepaginate', 'version');
+        $pluginversion = get_config(__CLASS__, 'version');
         $paramsforjs[] = '[' . get_string('version', 'plugin') . ' ' . $pluginversion . ' on M' . $CFG->release . ']';
 
         $debug && debugging($fxn . '::Found questionsperpage=' . bqopp_u::var_dump($questionsperpage, true));
         $paramsforjs[] = $questionsperpage;
 
         // Add the block JS.
-        $this->page->requires->js_call_amd('block_quizonepagepaginate/module', 'init', $paramsforjs);
+        $this->page->requires->js_call_amd(__CLASS__ . '/module', 'init', $paramsforjs);
 
         $this->content = new stdClass();
         $this->content->text = \get_string('defaultcontent', \QUIZONEPAGEPAGINATE_BLOCK_NAME);
