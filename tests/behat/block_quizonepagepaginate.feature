@@ -64,8 +64,8 @@ Feature: Basic functionality
     And "One Page Paginate" "block" should be visible
     And I expand all fieldsets
     Then "#id_questionsperpage" "css_element" should not be visible
-    # And I click on "Show more..." "link"
-    # And id_showblocks_label
+    And I click on "#id_display .moreless-toggler" "css_element"
+    And the field "Show blocks during quiz attempts" matches value "1"
     And I log out
 
     # As student, attempt quiz again (should see one question at a time)
