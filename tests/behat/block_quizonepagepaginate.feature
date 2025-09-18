@@ -59,6 +59,11 @@ Feature: Basic functionality
     When I turn editing mode on
     And I add the "One Page Paginate" block
     And "One Page Paginate" "block" should exist
+    # Go to the quiz settings page and check the block is visible
+    And I am on the "Quiz 1" "quiz activity editing" page
+    And "One Page Paginate" "block" should be visible
+    And I expand all fieldsets
+    Then "#id_questionsperpage" "css_element" should not be visible
     And I log out
 
     # As student, attempt quiz again (should see one question at a time)
@@ -116,7 +121,7 @@ Feature: Basic functionality
     And the "Previous" "button" should be enabled
     And the "Next" "button" should be enabled
     When I press "Finish attempt ..."
-    
+
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
