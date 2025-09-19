@@ -174,7 +174,7 @@ class block_quizonepagepaginate extends \block_base {
      */
     public function specialization() {
         // Add a module-specific class to the body tag.  This enables the CSS that hides the quiz questions by default.
-        $this->page->add_body_class(__CLASS__);
+        $this->page->add_body_class('has-' . __CLASS__);
 
         // If user shows/hides block in one pagetype of the quiz, also show/hide it in all the other pagetypes.
         $this->handle_block_visibility_change();
