@@ -6,7 +6,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodl>e is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -490,8 +490,23 @@ final class MoodleUtility {
      * @return void.
      */
     public static function blocks_set_visibility_all_for_context_pagetypes(int $blockinstanceid, int $contextid, bool $newvisibility): void {
+        $debug = false;
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug && debugging($fxn . '::Started with $blockinstanceid=' . $blockinstanceid . '; $contextid=' . $contextid . '; $newvisibility=' . ($newvisibility ? 'true' : 'false'));
+
         global $DB;
-        $DB->set_field('block_positions', 'visible', (int) $newvisibility, ['blockinstanceid' => $blockinstanceid, 'contextid' => $contextid]);
+        $blockinstances = $DB->get_records('block_instances', ['parentcontextid' => $contextid]);
+        $debug && debugging($fxn . '::Got ' . bqopp_u::count_if_countable($blockinstances) . ' $blockinstances');
+
+        foreach ($blockinstances as $blockinstance) {
+            $debug && debugging($fxn . '::About to set block_positions visible for blockinstanceid=' . $blockinstance->id . ' in contextid=' . $contextid . ' to ' . ($newvisibility ? 'true' : 'false'));
+            $DB->set_field('block_positions', 'visible', $newvisibility, [
+                'blockinstanceid' => $blockinstance->id,
+                'contextid' => $contextid
+            ]);
+        }
+
+        $debug && debugging($fxn . '::Done');
     }
 
     /**
