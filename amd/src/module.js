@@ -266,12 +266,6 @@ class block_quizonepagepaginate {
         self.updatePrevNextButtonVisibility();
     }
 
-    scrollToQuestion() {
-        document.querySelector('#responseform').scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-
     addNextPrevButtons() {
         const debug = false;
         const self = this;
@@ -402,7 +396,6 @@ class block_quizonepagepaginate {
         self.triggerAutosave();
         self.updateVisibleQuestionRange(false);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
-        self.scrollToQuestion();
         self.updatePrevNextButtonVisibility();
     }
 
@@ -415,7 +408,6 @@ class block_quizonepagepaginate {
         self.triggerAutosave();
         self.updateVisibleQuestionRange(true);
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
-        self.scrollToQuestion();
         self.updatePrevNextButtonVisibility();
     }
 
