@@ -78,7 +78,7 @@ Feature: Basic functionality
   #   And I open the "One Page Paginate" blocks action menu
   #   #
   #   # NONE OF THE BELOW WORKS TO CLICK THE ACTIONS MENU AND CHOOSE "HIDE".
-  #   #     
+  #   #
   #   # When I click on ".block_quizonepagepaginate .dropdown-toggle i" "css_element"
   #   # And I choose "Hide One Page Paginate block" in the open action menu
   #   # And I follow "Hide One Page Paginate block"
