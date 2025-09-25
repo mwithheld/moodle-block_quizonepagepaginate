@@ -26,7 +26,7 @@ declare(strict_types=1);
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'block_quizonepagepaginate';
-$plugin->version = 2025092400;
+$plugin->version = 2025092401;
 $plugin->release = $plugin->version;
 $plugin->supported = [400, 550];
 $plugin->requires = 2022041900; // Moodle 4.0.0.
