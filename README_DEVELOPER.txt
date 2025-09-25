@@ -6,4 +6,3 @@ bin/moodle-docker-compose exec -u www-data webserver php admin/tool/behat/cli/ru
 # Some options for admin/cli/run.php:
 # ... --format=pretty --colors --no-snippets
 # ... --format=pretty --format-settings '{"formats": "html,image", "dir_permissions": "0777"}'
-
