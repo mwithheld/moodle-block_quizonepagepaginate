@@ -22,7 +22,7 @@
 
 class block_quizonepagepaginate {
     constructor(versionstring, questionsperpage) {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.constructor';
         window.console.log(fxn + '::Started with versionstring=' + versionstring + '; questionsperpage=' + questionsperpage);
@@ -59,7 +59,7 @@ class block_quizonepagepaginate {
     }
 
     run() {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.run';
         debug && window.console.log(fxn + '::Started with self.firstQuestionToShow=; self.questionsperpage=', self.firstQuestionToShow, self.questionsperpage);
@@ -91,7 +91,7 @@ class block_quizonepagepaginate {
     }
 
     shouldQuizPaginate() {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.shouldQuizPaginate';
         debug && window.console.log(fxn + '::Started');
@@ -114,7 +114,7 @@ class block_quizonepagepaginate {
      * @returns {number} The matching index in self.arrQuestions; else -1.
      */
     getAnchorQuestionIndex(url = '') {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionIndex';
         debug && window.console.log(fxn + '::Started');
@@ -160,7 +160,7 @@ class block_quizonepagepaginate {
      * @returns {string} The question number e.g. "question-23-9" from the URL anchor value (e.g. from https://my.moodle.com/mod/quiz/attempt.php?attempt=58&cmid=3#question-23-9); else return empty string.
      */
     getAnchorQuestionNr(anchor = '') {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.getAnchorQuestionNr';
         debug && window.console.log(fxn + '::Started');
@@ -187,7 +187,7 @@ class block_quizonepagepaginate {
      * @returns {number} The index of self.arrQuestions that matches; else -1.
      */
     findQuestionIndexFromQuestionNr(questionNr = '') {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.findQuestionIndexFromQuestionNr';
         debug && window.console.log(fxn + '::Started with questionNr=', questionNr);
@@ -217,7 +217,7 @@ class block_quizonepagepaginate {
     }
 
     getAllQuestions() {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.getAllQuestions';
         debug && window.console.log(fxn + '::Started');
@@ -235,7 +235,7 @@ class block_quizonepagepaginate {
     }
 
     hideShowQuestions(first = 0, length) {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.hideShowQuestions';
         debug && window.console.log(fxn + '::Started with first=' + first + '; length=' + length);
@@ -267,7 +267,7 @@ class block_quizonepagepaginate {
     }
 
     addNextPrevButtons() {
-        const debug = false;
+        const debug = true;
         const self = this;
         const fxn = self.constructor.name + '.addNextPrevButtons';
         debug && window.console.log(fxn + '::Started with self.eltQuizFinishAttemptButtonSelector=', self.eltQuizFinishAttemptButtonSelector);
@@ -320,7 +320,7 @@ class block_quizonepagepaginate {
      * @returns {DomElement} The DomElement we just inserted.
      */
     addPrevNextButton(eltCloneSource, nextorprev, strings) {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.addPrevNextButton';
         debug && window.console.log(fxn + '::Started wih eltCloneSource=; nextorprev=; strings=', eltCloneSource, nextorprev, strings);
@@ -358,7 +358,7 @@ class block_quizonepagepaginate {
     }
 
     updatePrevNextButtonVisibility() {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.updatePrevNextButtonVisibility';
         debug && window.console.log(fxn + '::Started');
@@ -388,7 +388,7 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedPrev() {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedPrev';
         debug && window.console.log(fxn + '::Started');
@@ -400,19 +400,23 @@ class block_quizonepagepaginate {
     }
 
     buttonClickedNext() {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.buttonClickedNext';
         debug && window.console.log(fxn + '::Started');
 
         self.triggerAutosave();
+        debug && window.console.log(fxn + '::Done triggerAutosave');
         self.updateVisibleQuestionRange(true);
+        debug && window.console.log(fxn + '::Done updateVisibleQuestionRange');
         self.hideShowQuestions(self.firstQuestionToShow, self.questionsperpage);
+        debug && window.console.log(fxn + '::Done hideShowQuestions');
         self.updatePrevNextButtonVisibility();
+        debug && window.console.log(fxn + '::Done updatePrevNextButtonVisibility');
     }
 
     triggerAutosave() {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.triggerAutosave';
         debug && window.console.log(fxn + '::Started');
@@ -426,7 +430,7 @@ class block_quizonepagepaginate {
     }
 
     updateVisibleQuestionRange(getNextSet = true) {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.updateVisibleQuestionRange';
         debug && window.console.log(fxn + '::Started with getNextSet=', getNextSet);
@@ -473,7 +477,7 @@ class block_quizonepagepaginate {
      * @returns void
      */
     handleAnchorChange(e) {
-        const debug = false;
+        const debug = true;
         const self = M.block_quizonepagepaginate;
         const fxn = self.constructor.name + '.handleAnchorChange';
         debug && window.console.log(fxn + '::Started with e=', e);
@@ -536,7 +540,7 @@ class block_quizonepagepaginate {
  * @param {number} questionsperpage How many quiz questions to show at once.
  */
 export const init = (versionstring, questionsperpage) => {
-    const debug = false;
+    const debug = true;
     const fxn = 'block_quizonepagepaginate::init';
     debug && window.console.log(fxn + '::Started with versionstring=' + versionstring + '; questionsperpage=' + questionsperpage);
 
