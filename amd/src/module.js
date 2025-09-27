@@ -345,6 +345,8 @@ class block_quizonepagepaginate {
         const eltClone = eltCloneSource.cloneNode(true);
         eltClone.setAttribute('id', btnname);
         eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
+        // Prevent block_integrityadvocate and other from binding these buttons.
+        eltClone.className = eltClone.className.replace('mod_quiz-next-nav', 'block_quizonepagepaginate-next');
         eltClone.name = btnname;
         eltClone.type = 'button'; // Prevents MacOS from navigating when type=submit.
         eltClone.setAttribute('value', btnvalue); // Safari fix.
