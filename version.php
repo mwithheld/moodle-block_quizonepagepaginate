@@ -28,6 +28,6 @@ defined('MOODLE_INTERNAL') || die;
 $plugin->component = 'block_quizonepagepaginate';
 $plugin->version = 2025092503;
 $plugin->release = $plugin->version;
-$plugin->supported = [400, 550];
-$plugin->requires = 2022041900; // Moodle 4.0.0.
+$plugin->supported = [402, 550];
+$plugin->requires = 2023042400; // Moodle 4.2.0.
 $plugin->maturity = MATURITY_STABLE;
