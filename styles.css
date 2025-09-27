@@ -26,6 +26,7 @@ Hide the quiz config for Layout>New Page:# questions per page, since we are forc
     display: none;
 }
 
-.block_quizonepagepaginate-next, .block_quizonepagepaginate-prev{
+.block_quizonepagepaginate-next,
+.block_quizonepagepaginate-prev {
     margin-left: auto;
 }
