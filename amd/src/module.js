@@ -345,8 +345,8 @@ class block_quizonepagepaginate {
         const eltClone = eltCloneSource.cloneNode(true);
         eltClone.setAttribute('id', btnname);
         eltClone.className = eltClone.className.replace('btn-primary', 'btn-secondary');
-        // Prevent block_integrityadvocate and other from binding these buttons.
-        eltClone.className = eltClone.className.replace('mod_quiz-next-nav', 'block_quizonepagepaginate-next');
+        // Prevent block_integrityadvocate and other from binding these buttons. As of Moodle 5 this matches both Previous and Next buttons in the classic theme.
+        eltClone.className = eltClone.className.replace('mod_quiz-next-nav', 'block_quizonepagepaginate-' + btnname);
         eltClone.name = btnname;
         eltClone.type = 'button'; // Prevents MacOS from navigating when type=submit.
         eltClone.setAttribute('value', btnvalue); // Safari fix.
